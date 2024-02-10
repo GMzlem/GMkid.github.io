@@ -1,0 +1,214 @@
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    height: 100%;
+    background: #ffffff;
+}
+
+a {
+    text-decoration: none;
+    color: rgb(167, 167, 167);
+    word-break: keep-all;
+}
+
+nav {
+    height: 30px;
+    width: 100%;
+}
+
+h1 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+    margin-bottom: 0px;
+    background-color: #ffffff;
+    margin-top: 0;
+    height: 100px;
+}
+
+#navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+}
+
+.navbarMenu {
+    list-style: none;
+    display: flex;
+    font-size: 30px;
+    width: 100%;
+    padding-left: 0;
+    margin: 0;
+}
+
+.navbarMenu li {
+    display: flex;
+    width: 100%;
+}
+
+#hiddenNavbarMenu {
+    background-color: #ffffff;
+    list-style: none;
+    display: none;
+    font-size: 30px;
+    justify-content: space-between;
+    width: 100%;
+    height: 100px;
+    padding-left: 0;
+    position: fixed;
+    margin: 0;
+}
+
+#hiddenNavbarMenu li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: auto 14.6%;
+    width: 100%;
+}
+
+#img-section {
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: black;
+    width: 1300px;
+    height: 675px;
+    position: absolute;
+    /* border-left: #ffffff 15px solid;
+    border-right: #ffffff 15px solid; */
+}
+
+.slider {
+    display: flex;
+    width: 100%;
+    float: left;
+}
+
+#images {
+    display: flex;
+
+    width: 100%;
+    height: 100%;
+
+    left: 0;
+
+    position: absolute;
+
+    transition: left .2s ease;
+}
+
+.slider img {
+    width: 1300px;
+    height: 800px;
+}
+
+#next {
+    position: absolute;
+    right: 30px;
+}
+
+#prev {
+    position: absolute;
+    left: 30px;
+}
+
+#introduction {
+    background-color: aquamarine;
+    height: 1000px;
+    width: 100%;
+}
+
+#guide {
+    background-color: rgb(37, 145, 109);
+    height: 1000px;
+    width: 100%;
+}
+
+#news {
+    background-color: rgb(10, 48, 35);
+    height: 1000px;
+    width: 100%;
+}
+
+#hover:hover {
+    background-color: rgb(210, 210, 210);
+}
+
+#hover {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#end {
+    display: flex;
+    width: 100%;
+    height: 200px;
+    background-color: #1a1a1a;
+}
+
+#btn {
+    display: flex;
+    position: absolute;
+    justify-content: space-between;
+    bottom: 15px;
+    height: 10px;
+    transition: all ease .1s;
+}
+
+#btn:hover {
+    cursor: pointer;
+}
+
+#btn-back-to-top {
+    display: flex;
+    height: 10px;
+    width: 10px;
+    bottom: 5px;
+    right: 5px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    display: none;
+    position: fixed;
+    padding: 20px;
+    border: none;
+    outline: none;
+    background-color: white;
+    cursor: pointer;
+    border-radius: 100%;
+}
+
+#btn-back-to-top:hover {
+    background-color: #eaeaea;
+}
+
+#TOP {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+}
+
+#next:hover {
+    cursor: pointer;
+}
+
+#prev:hover {
+    cursor: pointer;
+}
