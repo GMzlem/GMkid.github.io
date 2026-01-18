@@ -1,0 +1,139 @@
+/* Swiper Slider Styles */
+.slider-section {
+    position: relative;
+    width: 100%;
+    background-color: #000;
+}
+
+/* Swiper Container */
+.mySwiper {
+    width: 100%;
+    height: 675px;
+}
+
+/* Swiper Wrapper */
+.swiper-wrapper {
+    height: 100%;
+}
+
+/* Individual Slides */
+.swiper-slide {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #000;
+}
+
+.swiper-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Navigation Buttons - Swiper 기본 버튼 커스터마이징 */
+.swiper-button-next,
+.swiper-button-prev {
+    width: 50px;
+    height: 50px;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    color: #333;
+    transition: all 0.3s ease;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+    background-color: rgba(255, 255, 255, 0.9);
+    transform: scale(1.1);
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* Pagination - 현재 위치는 채워지되 하이라이트 효과 없음 */
+.swiper-pagination {
+    bottom: 20px !important;
+}
+
+.swiper-pagination-bullet {
+    width: 12px;
+    height: 12px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border: 2px solid #fff;
+    opacity: 1;
+    transition: background-color 0.3s ease;
+}
+
+.swiper-pagination-bullet:hover {
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+/* Active bullet - 채워진 동그라미 (크기/애니메이션 변화 없음) */
+.swiper-pagination-bullet-active {
+    background-color: rgba(255, 255, 255, 1);
+}
+
+/* Responsive Slider */
+@media screen and (max-width: 768px) {
+    .mySwiper {
+        height: 450px;
+    }
+
+    .swiper-button-next,
+    .swiper-button-prev {
+        width: 40px;
+        height: 40px;
+    }
+
+    .swiper-button-next::after,
+    .swiper-button-prev::after {
+        font-size: 16px;
+    }
+
+    .swiper-pagination {
+        bottom: 15px !important;
+    }
+
+    .swiper-pagination-bullet {
+        width: 10px;
+        height: 10px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .mySwiper {
+        height: 300px;
+    }
+
+    .swiper-button-next,
+    .swiper-button-prev {
+        width: 35px;
+        height: 35px;
+    }
+
+    .swiper-button-next::after,
+    .swiper-button-prev::after {
+        font-size: 14px;
+    }
+
+    .swiper-pagination-bullet {
+        width: 8px;
+        height: 8px;
+    }
+}
+
+/* Swiper 추가 커스터마이징 */
+.swiper-slide-active {
+    /* active 슬라이드도 특별한 스타일 없음 */
+}
+
+/* 드래그 중 커서 */
+.swiper-container-dragging {
+    cursor: grabbing !important;
+}
+
