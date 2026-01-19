@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="예슈아 사랑교회 - 설교 말씀">
+    <title>설교 말씀 - 예슈아 사랑교회</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/sermon.css">
+</head>
+<body>
+    <!-- Mobile Menu Button -->
+    <button class="mobile-menu-toggle" id="mobileMenuToggle">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+    <!-- Mobile Overlay -->
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+
+    <div class="sermon-container">
+        <!-- Left Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <!-- Close Button (Mobile Only) -->
+            <button class="sidebar-close" id="sidebarClose">
+                <span>&times;</span>
+            </button>
+
+            <!-- Header Section -->
+            <div class="sidebar-header">
+                <h1 class="church-name">예슈아 사랑교회</h1>
+                <!-- <p class="bible-verse">ברוך הבא בשם אדוני הללויה 막11장 9절</p> -->
+            </div>
+
+            <!-- Title Section (not a button) -->
+            <div class="sermon-title-section">
+                <h2 class="sermon-title">설교 말씀</h2>
+            </div>
+
+            <!-- Service Buttons -->
+            <nav class="service-menu">
+                <button class="service-btn" data-service="sunday-morning">
+                    <span>주일오전</span>
+                </button>
+                <button class="service-btn" data-service="sunday-afternoon">
+                    <span>주일오후</span>
+                </button>
+                <button class="service-btn" data-service="wednesday">
+                    <span>수요예배</span>
+                </button>
+                <button class="service-btn" data-service="friday">
+                    <span>금요예배</span>
+                </button>
+                <button class="service-btn" data-service="sunday-school">
+                    <span>주일학교</span>
+                </button>
+            </nav>
+
+            <!-- Back to Home Link -->
+            <a href="index.html" class="back-home">← 홈으로</a>
+        </aside>
+
+        <!-- Date Selection Panel (slides in from right) -->
+        <div class="date-panel" id="datePanel">
+            <div class="date-panel-header">
+                <h3 id="datePanelTitle">날짜 선택</h3>
+                <button class="close-panel" id="closePanel"></button>
+            </div>
+            <div class="date-list" id="dateList">
+                <!-- Dates will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Welcome State -->
+            <div class="welcome-state" id="welcomeState">
+                <div class="welcome-message">
+                    <h2>설교 말씀</h2>
+                    <p>왼쪽에서 예배를 선택하고<br>날짜를 선택하여 말씀을 확인하세요</p>
+                </div>
+            </div>
+
+            <!-- Content Paper -->
+            <div class="content-paper" id="contentPaper" style="display: none;">
+                <div class="paper-header">
+                    <h2 id="contentTitle"></h2>
+                    <p class="content-meta" id="contentMeta"></p>
+                </div>
+                <div class="paper-body" id="contentBody">
+                    <!-- Content will be populated by JavaScript -->
+                </div>
+                
+                <!-- Pagination (if content has multiple pages) -->
+                <div class="pagination" id="pagination" style="display: none;">
+                    <button class="page-btn" id="prevPage" disabled>
+                        <span>← 이전</span>
+                    </button>
+                    <span class="page-info" id="pageInfo"></span>
+                    <button class="page-btn" id="nextPage">
+                        <span>다음 →</span>
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <!-- Overlay for date panel -->
+        <div class="panel-overlay" id="panelOverlay"></div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="js/sermon.js"></script>
+</body>
+</html>

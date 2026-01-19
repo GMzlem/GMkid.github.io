@@ -1,0 +1,483 @@
+/* Modern Church Website Design - Inspired by Dongsan Church */
+
+/* Quick Links Section */
+.quick-links-section {
+    display: none; /* 기본적으로 숨김 (데스크톱) */
+    background-color: var(--white);
+    padding: 60px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* 768px 이하에서만 표시 (모바일/태블릿) */
+@media screen and (max-width: 768px) {
+    .quick-links-section {
+        display: block;
+    }
+}
+
+.quick-links-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.quick-link-card {
+    background: var(--white);
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    padding: 35px 25px;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.quick-link-card:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.quick-link-icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    color: var(--primary-color);
+}
+
+.quick-link-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 10px;
+}
+
+.quick-link-desc {
+    font-size: 0.95rem;
+    color: var(--text-light);
+}
+
+/* Sermon Section */
+.sermon-section {
+    background-color: var(--background-light);
+    padding: 80px 0;
+}
+
+.sermon-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.sermon-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.sermon-main {
+    background: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    transition: all 0.3s ease;
+}
+
+.sermon-main:hover {
+    border-color: var(--primary-color);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    transform: translateY(-5px);
+}
+
+.sermon-video {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 ratio */
+    background: #000;
+}
+
+.sermon-video iframe,
+.sermon-video img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.sermon-info {
+    padding: 30px;
+}
+
+.sermon-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 10px;
+}
+
+.sermon-meta {
+    display: flex;
+    gap: 20px;
+    color: var(--text-light);
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+}
+
+.sermon-desc {
+    color: var(--text-dark);
+    line-height: 1.8;
+}
+
+.sermon-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.sidebar-card {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: var(--shadow-sm);
+}
+
+.sidebar-card h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+.sidebar-card ul {
+    list-style: none;
+}
+
+.sidebar-card li {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.sidebar-card li:last-child {
+    border-bottom: none;
+}
+
+.sidebar-card a {
+    color: var(--text-dark);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.sidebar-card a:hover {
+    color: var(--primary-color);
+}
+
+/* Church Introduction - Modern Card Style */
+.section-intro {
+    background: linear-gradient(135deg, #f5f7fa 0%, #e8eef5 100%);
+    padding: 80px 0;
+}
+
+.section-intro .section-content {
+    background: var(--white);
+    border-radius: 16px;
+    box-shadow: var(--shadow-lg);
+    padding: 60px;
+    text-align: center;
+}
+
+.intro-header {
+    margin-bottom: 50px;
+}
+
+.intro-header h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 15px;
+}
+
+.intro-header p {
+    font-size: 1.2rem;
+    color: var(--text-light);
+}
+
+.intro-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-bottom: 50px;
+}
+
+.intro-card {
+    background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-color) 100%);
+    color: var(--white);
+    padding: 40px 30px;
+    border-radius: 12px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.intro-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.intro-card-icon {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+.intro-card h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.intro-card p {
+    font-size: 1rem;
+    line-height: 1.8;
+    opacity: 0.95;
+}
+
+/* Worship Schedule - Modern Table */
+.worship-schedule {
+    margin-top: 50px;
+    padding: 40px;
+    background: var(--background-light);
+    border-radius: 12px;
+}
+
+.schedule-table {
+    width: 100%;
+    background: var(--white);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+.schedule-table thead {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+    color: var(--white);
+}
+
+.schedule-table th {
+    padding: 20px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+.schedule-table td {
+    padding: 18px 20px;
+    font-size: 1rem;
+    text-align: center;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-dark);
+}
+
+.schedule-table tbody tr:hover {
+    background-color: rgba(44, 90, 160, 0.05);
+}
+
+.schedule-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Church News - Modern Card Grid */
+.section-news {
+    background: var(--white);
+    padding: 80px 0;
+}
+
+.news-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 40px auto 0;
+    padding: 0 20px;
+}
+
+.news-card {
+    background: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 30px;
+    transition: all 0.3s ease;
+}
+
+.news-card:hover {
+    border-color: var(--primary-color);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-3px);
+}
+
+.news-date {
+    display: inline-block;
+    background: var(--primary-color);
+    color: var(--white);
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.news-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 15px;
+    line-height: 1.4;
+}
+
+.news-content {
+    color: var(--text-light);
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+.news-more {
+    color: var(--primary-color);
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: gap 0.3s ease;
+}
+
+.news-more:hover {
+    gap: 10px;
+}
+
+/* Location Section - Clean Design */
+.section-location {
+    background: var(--background-light);
+    padding: 80px 0;
+}
+
+.location-container {
+    max-width: 100%; /* 전체 너비 사용 */
+    width: 80%; /* 양쪽에 여백 5% */
+    margin: 0 auto;
+    padding: 0;
+}
+
+.location-content {
+    background: var(--white);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+}
+
+.map-container {
+    width: 100%;
+    height: 700px; /* 600px → 700px 더 확장! */
+    position: relative;
+}
+
+.map-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.location-info {
+    padding: 60px 50px; /* 좌우 패딩 추가 */
+    text-align: center;
+}
+
+.address-main {
+    font-size: 2.2rem; /* 2rem → 2.2rem */
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 15px;
+}
+
+.address-sub {
+    font-size: 1.3rem; /* 1.2rem → 1.3rem */
+    color: var(--text-light);
+    margin-bottom: 30px;
+}
+
+.location-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* 200px → 250px */
+    gap: 40px; /* 30px → 40px */
+    margin-top: 40px;
+    padding-top: 40px;
+    border-top: 1px solid var(--border-color);
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.location-detail {
+    text-align: center;
+}
+
+.location-detail-icon {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.location-detail-title {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 5px;
+}
+
+.location-detail-value {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+/* Responsive */
+@media screen and (max-width: 968px) {
+    .sermon-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .intro-content {
+        grid-template-columns: 1fr;
+    }
+
+    .quick-links-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+
+    .news-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .section-intro .section-content {
+        padding: 40px 30px;
+    }
+
+    .intro-header h2 {
+        font-size: 2rem;
+    }
+
+    .sermon-title {
+        font-size: 1.5rem;
+    }
+
+    .quick-link-card {
+        padding: 25px 20px;
+    }
+
+    .location-details {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,208 @@
+/* Swiper Slider Styles */
+/* hero: 전체폭 배경 영역 */
+.hero {
+  position: relative;
+  width: 100%;
+  min-height: 100%;   /* 필요에 맞게 조절 */
+  overflow: hidden;
+}
+
+/* 배경 레이어 */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+
+  /* 배경색 */
+  background: #e5ecf1;
+
+  /* 배경이미지 */
+  /* background: url("assets/images/hero-bg.jpg") center/cover no-repeat; */
+}
+
+/* 슬라이더를 올릴 레이어 */
+.hero-inner {
+  position: relative;
+  z-index: 2;
+
+  width: 100%;
+  min-height: inherit;
+
+  display: flex;
+  align-items: center;        /* 세로 가운데 */
+  justify-content: center;    /* 가로 가운데 */
+  padding: 0 24px;            /* 모바일 좌우 여백 */
+}
+
+/* 슬라이더 폭 제한 (가운데) */
+.hero-slider {
+  width: min(1200px, 100%);
+}
+
+/* Swiper가 컨테이너 폭을 꽉 쓰게 */
+.slider-section,
+.swiper {
+  width: 100%;
+}
+
+/* 이미지가 슬라이드 영역에 깔끔히 맞게 */
+.swiper-slide img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.slider-section {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 0;
+    /* 양옆 공백 배경색 - 원하는 색으로 변경 가능 */
+    background-color: #f8f9fa;
+    /* 또는 이미지 배경: */
+    /* background-image: url('../assets/images/배경이미지.jpg'); */
+    /* background-size: cover; */
+    /* background-position: center; */
+}
+
+/* Swiper Container */
+.mySwiper {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;  /* 직사각형으로 변경 (12px → 0) */
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Swiper Wrapper */
+.swiper-wrapper {
+    height: 100%;
+}
+
+/* Individual Slides */
+.swiper-slide {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f5f5f5;
+}
+
+.swiper-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background-color: #f5f5f5;
+}
+
+/* Navigation Buttons - Swiper 기본 버튼 커스터마이징 */
+.swiper-button-next,
+.swiper-button-prev {
+    width: 50px;
+    height: 50px;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    color: #333;
+    transition: all 0.3s ease;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+    background-color: rgba(255, 255, 255, 0.9);
+    transform: scale(1.1);
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* Pagination - 현재 위치는 채워지되 하이라이트 효과 없음 */
+.swiper-pagination {
+    bottom: 20px !important;
+}
+
+.swiper-pagination-bullet {
+    width: 12px;
+    height: 12px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border: 2px solid #fff;
+    opacity: 1;
+    transition: background-color 0.3s ease;
+}
+
+.swiper-pagination-bullet:hover {
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+/* Active bullet - 채워진 동그라미 (크기/애니메이션 변화 없음) */
+.swiper-pagination-bullet-active {
+    background-color: rgba(255, 255, 255, 1);
+}
+
+/* Responsive Slider */
+@media screen and (max-width: 768px) {
+    .slider-section {
+        padding: 0 0px;
+    }
+
+    .mySwiper {
+        height: 100%;
+        border-radius: 0;
+    }
+
+    .swiper-button-next,
+    .swiper-button-prev {
+        width: 40px;
+        height: 40px;
+    }
+
+    .swiper-button-next::after,
+    .swiper-button-prev::after {
+        font-size: 16px;
+    }
+
+    .swiper-pagination {
+        bottom: 15px !important;
+    }
+
+    .swiper-pagination-bullet {
+        width: 10px;
+        height: 10px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .slider-section {
+        padding: 0 0px;
+    }
+
+    .mySwiper {
+        height: 100%;
+        border-radius: 0;
+    }
+
+    .swiper-button-next,
+    .swiper-button-prev {
+        width: 35px;
+        height: 35px;
+    }
+
+    .swiper-button-next::after,
+    .swiper-button-prev::after {
+        font-size: 14px;
+    }
+
+    .swiper-pagination-bullet {
+        width: 8px;
+        height: 8px;
+    }
+}
+
+/* 드래그 중 커서 */
+.swiper-container-dragging {
+    cursor: grabbing !important;
+}
+

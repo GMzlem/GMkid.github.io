@@ -3,73 +3,423 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>준비 중 | yeshua-love.org</title>
-    <style>
-        body {
-            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
-            background-color: #f8f9fa;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            color: #333;
-        }
-        .container {
-            text-align: center;
-            padding: 2rem;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            max-width: 400px;
-            width: 90%;
-        }
-        .icon {
-            font-size: 50px;
-            margin-bottom: 20px;
-        }
-        h1 {
-            font-size: 24px;
-            margin-bottom: 10px;
-            color: #222;
-        }
-        p {
-            font-size: 16px;
-            line-height: 1.6;
-            color: #666;
-            margin-bottom: 30px;
-        }
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(0,0,0,.1);
-            border-radius: 50%;
-            border-top-color: #007aff;
-            animation: spin 1s ease-in-out infinite;
-        }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        .footer {
-            font-size: 13px;
-            color: #999;
-            margin-top: 20px;
-        }
-    </style>
+    <meta name="description" content="예슈아 사랑교회 - 가르치며 전파하며 고치는 제자되자">
+    <title>예슈아 사랑교회</title>
+    
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/slider.css">
+    <link rel="stylesheet" href="css/sections.css">
+    <link rel="stylesheet" href="css/modern-sections.css">
+    <link rel="stylesheet" href="css/scroll-animations.css">
 </head>
 <body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-shadow"></div>
+        <h1 class="header-title">예슈아 사랑교회</h1>
+        
+        <!-- Mobile Hamburger Menu Button -->
+        <div class="menu-toggle" id="menuToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </header>
 
-<div class="container">
-    <!-- <div class="icon">🚧</div> -->
-    <h1>사이트 점검 및 준비 중</h1>
-    <p>더 나은 서비스를 위해 현재 시스템을 업데이트하고 있습니다. 곧 새로운 모습으로 찾아뵙겠습니다.</p>
-    <p>경기도 안산시 상록구 본오동 666-9</p>
-    <div class="loading"></div>
-    <div class="footer">
-        © 2024 yeshua-love.org. All rights reserved.
+    <!-- Bible Verse Banner -->
+    <div class="bible-banner">
+        <p><strong>ברוך הבא בשם אדוני הללויה</strong> 막11장 9절</p>
     </div>
-</div>
 
+    <!-- Back to Top Button -->
+    <button id="btn-back-to-top" class="back-to-top" title="위로 가기">
+        <img src="assets/images/upArrow.png" alt="위로 가기">
+    </button>
+
+    <!-- Image Slider Section -->
+    <section class="hero">
+        <div class="hero-bg"></div>
+
+        <div class="hero-inner">
+            <div class="hero-slider">
+                <section class="slider-section">
+                    <div class="swiper mySwiper">
+                        <div class="swiper-wrapper">
+                            <!-- Slide 1: 주일예배 1부 -->
+                            <div class="swiper-slide" data-action="scroll" data-target="worship-info">
+                                <img src="assets/images/sunday_1.png" alt="주일예배 1부">
+                            </div>
+                            <!-- Slide 2: 주일예배 2부 -->
+                            <div class="swiper-slide" data-action="scroll" data-target="worship-info">
+                                <img src="assets/images/sunday_2.png" alt="주일예배 2부">
+                            </div>
+                            <!-- Slide 3: 주일학교 -->
+                            <div class="swiper-slide" data-action="link" data-target="sundayschool.html">
+                                <img src="assets/images/sundayschool.png" alt="주일학교">
+                            </div>
+                            <!-- Slide 4: 수요예배 -->
+                            <div class="swiper-slide">
+                                <img src="assets/images/wednesday.png" alt="수요예배">
+                            </div>
+                            <!-- Slide 5: 금요예배 -->
+                            <div class="swiper-slide">
+                                <img src="assets/images/friday.png" alt="금요예배">
+                            </div>
+                        </div>
+                        
+                        <!-- Navigation Buttons -->
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-button-next"></div>
+                        
+                        <!-- Pagination -->
+                        <div class="swiper-pagination"></div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </section>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <ul class="navbar-menu-desktop">
+            <li><a href="#church-intro">교회소개</a></li>
+            <li><a href="#worship-info">예배안내</a></li>
+            <li><a href="#church-news">교회소식</a></li>
+            <li><a href="sundayschool.html">주일학교</a></li>
+            <li><a href="#location">오시는길</a></li>
+            <li><a href="#" class="popup-trigger" data-popup="jubo">주보 보기</a></li>
+            <li><a href="https://open.kakao.com/o/scbvDSfg" target="_blank">온라인 등록</a></li>
+        </ul>
+    </nav>
+
+    <!-- Mobile Menu (독립적으로 배치) -->
+    <ul class="navbar-menu" id="navbarMenu">
+        <!-- X 버튼 (메뉴 안에 배치) -->
+        <div class="menu-close" id="menuClose">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        
+        <li><a href="#church-intro">교회소개</a></li>
+        <li><a href="#worship-info">예배안내</a></li>
+        <li><a href="#church-news">교회소식</a></li>
+        <li><a href="sundayschool.html">주일학교</a></li>
+        <li><a href="#location">오시는길</a></li>
+        <li><a href="#" class="popup-trigger" data-popup="jubo">주보 보기</a></li>
+        <li><a href="https://open.kakao.com/o/scbvDSfg" target="_blank">온라인 등록</a></li>
+    </ul>
+
+    <!-- Menu Overlay (Mobile) -->
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Quick Links Section -->
+        <section class="quick-links-section scroll-animate">
+            <div class="quick-links-grid scroll-animate-children">
+                <a href="#worship-info" class="quick-link-card">
+                    <h3 class="quick-link-title">예배 안내</h3>
+                    <p class="quick-link-desc">예배 시간 확인하기</p>
+                </a>
+                <a href="#" class="quick-link-card popup-trigger" data-popup="jubo">
+                    <h3 class="quick-link-title">주보 보기</h3>
+                    <p class="quick-link-desc">이번 주 주보</p>
+                </a>
+                <a href="sundayschool.html" class="quick-link-card">
+                    <h3 class="quick-link-title">주일학교</h3>
+                    <p class="quick-link-desc">다음 세대 교육</p>
+                </a>
+                <a href="https://open.kakao.com/o/scbvDSfg" target="_blank" class="quick-link-card">
+                    <h3 class="quick-link-title">온라인 등록</h3>
+                    <p class="quick-link-desc">새가족 등록</p>
+                </a>
+            </div>
+        </section>
+
+        <!-- Sermon Section -->
+        <section class="sermon-section scroll-animate">
+            <div class="sermon-container">
+                <h2 class="section-title">설교 말씀</h2>
+                <p class="section-subtitle">하나님의 말씀으로 충만한 예배</p>
+                
+                <div class="sermon-grid">
+                    <div class="sermon-main">
+                        <a href="sermon.html">
+                            <div class="sermon-video">
+                                <img src="assets/images/sunday_1.png" alt="주일 설교">
+                            </div>
+                            <div class="sermon-info">
+                                <h3 class="sermon-title">가르치며 전파하며 고치는 제자되자!</h3>
+                                <div class="sermon-meta">
+                                    <span>👤 김지영 담임 목사</span>
+                                </div>
+                                <p class="sermon-desc">
+                                    예배시간 설교를 보려면 클릭하세요
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                    
+                    <div class="sermon-sidebar">
+                        <div class="sidebar-card">
+                            <h3>예배 시간</h3>
+                            <ul>
+                                <li><a href="#worship-info">새벽예배 (월~금 05:30)</a></li>
+                                <li><a href="#worship-info">주일 1부 (09:30)</a></li>
+                                <li><a href="#worship-info">주일 2부 (11:00)</a></li>
+                                <li><a href="#worship-info">주일학교 (14:00)</a></li>
+                                <li><a href="#worship-info">저녁예배 (19:00)</a></li>
+                            </ul>
+                        </div>
+                        
+                        <div class="sidebar-card">
+                            <h3>오시는 길</h3>
+                            <ul>
+                                <li><a href="#location">경기도 안산시 상록구</a></li>
+                                <li><a href="#location">샘골로 40</a></li>
+                                <!-- <li><a href="#location">교통편 안내</a></li> -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Church Introduction Section -->
+        <section id="church-intro" class="section section-intro scroll-animate">
+            <div class="section-content">
+                <div class="intro-header">
+                    <h2>가르치며 전파하며 고치는 제자되자!</h2>
+                    <p>샬롬~ 예슈아 사랑교회 홈페이지에 오신 여러분 환영하고, 축복합니다!</p>
+                </div>
+
+                <div class="intro-content">
+                    <div class="news-card">
+                        <!-- <div class="news-card-icon">✝️</div> -->
+                        <h3>구원의 복음</h3>
+                        <p>구원이신 예수님을 전하고 예수님의 삶을 살아 하나님 나라의 증인 되는 것을 목표로 합니다</p>
+                    </div>
+                    
+                    <div class="news-card">
+                        <!-- <div class="news-card-icon">📖</div> -->
+                        <h3>성경 중심</h3>
+                        <p>하나님의 부르심을 받고 세워진 오직 성경 중심으로 예배하는 교회입니다</p>
+                    </div>
+                    
+                    <div class="news-card">
+                        <!-- <div class="news-card-icon">🕊️</div> -->
+                        <h3>믿음과 성령충만</h3>
+                        <p>믿음의 고백과 성령님의 충만함이 있는 교회! 예슈아 사랑교회로 여러분을 초대합니다</p>
+                    </div>
+                </div>
+
+                <div class="intro-text">
+                    <p class="note">
+                        <strong>개척교회</strong>입니다. 예배를 드리고싶은 모든 분은 오셔서 함께 예배드립시다!
+                    </p>
+                </div>
+
+                <!-- Worship Schedule Table -->
+                <div id="worship-info" class="worship-schedule">
+                    <table class="schedule-table">
+                        <thead>
+                            <tr>
+                                <th>요일</th>
+                                <th>예배</th>
+                                <th>시간</th>
+                                <th>장소</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td data-label="요일"><strong>월~금</strong></td>
+                                <td data-label="예배">새벽예배</td>
+                                <td data-label="시간">오전 5:30</td>
+                                <td data-label="장소" rowspan="7">본당</td>
+                            </tr>
+                            <tr>
+                                <td data-label="요일" rowspan="4"><strong>주일</strong></td>
+                                <td data-label="예배">1부</td>
+                                <td data-label="시간">오전 9:30</td>
+                            </tr>
+                            <tr>
+                                <td data-label="예배">2부</td>
+                                <td data-label="시간">오전 11:00</td>
+                            </tr>
+                            <tr>
+                                <td data-label="예배"><a href="sundayschool.html" class="table-link">주일학교</a></td>
+                                <td data-label="시간">오후 2:00</td>
+                            </tr>
+                            <tr>
+                                <td data-label="예배">저녁예배</td>
+                                <td data-label="시간">오후 7:00</td>
+                            </tr>
+                            <tr>
+                                <td data-label="요일"><strong>수요일</strong></td>
+                                <td data-label="예배">수요예배</td>
+                                <td data-label="시간">오후 7:30</td>
+                            </tr>
+                            <tr>
+                                <td data-label="요일"><strong>금요일</strong></td>
+                                <td data-label="예배">금요예배</td>
+                                <td data-label="시간">오후 9:00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Church News Section -->
+        <section id="church-news" class="section section-news scroll-animate">
+            <div class="section-content">
+                <h2 class="section-title">교회 소식</h2>
+                <p class="section-subtitle">예슈아 사랑교회의 최신 소식을 전해드립니다</p>
+                
+                <div class="news-grid scroll-animate-children">
+                    <div class="news-card">
+                        <span class="news-date">공지</span>
+                        <h3 class="news-title">축복합니다</h3>
+                        <p class="news-content">
+                            예배의 자리에 오신 여러분을 예슈아의 이름으로 축복합니다.
+                        </p>
+                    </div>
+                    
+                    <!-- <div class="news-card">
+                        <span class="news-date">4월 22일 ~ 30일</span>
+                        <h3 class="news-title">무교절 기간</h3>
+                        <p class="news-content">
+                            하나님이 정하신 절기의 뜻을 생각하며 예수님의 죽으심과 다시 사심이 
+                            우리 안에서도 일어나길 기도하며 하루 한끼 금식으로 동참합시다.
+                        </p>
+                    </div> -->
+                    
+                    <div class="news-card">
+                        <span class="news-date">기도 요청</span>
+                        <h3 class="news-title">예슈아 사랑교회를 위한 기도</h3>
+                        <p class="news-content">
+                            • 하나님의 나라와 뜻이 이루어지는 교회 되게 하소서<br>
+                            • 그리스도의 몸 된 우리가 교회로 세워지게 하소서<br>
+                            • 교회에 오는 모든 이에게 구원이 있게 하소서
+                        </p>
+                    </div>
+                    
+                    <div class="news-card">
+                        <span class="news-date">매주</span>
+                        <h3 class="news-title">가르치고 전파하며 고치는 제자의 삶</h3>
+                        <p class="news-content">
+                            한 주간도 가르치고 전파하며 고치는 제자의 삶으로 승리하세요.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Location Section -->
+        <section id="location" class="section section-location scroll-animate">
+            <div class="location-container">
+                <h2 class="section-title">오시는길</h2>
+                <p class="section-subtitle">예슈아 사랑교회에 오시는 길을 안내해드립니다</p>
+                
+                <div class="location-content">
+                    <div class="map-container">
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d420.3835195731304!2d126.86392631027788!3d37.287701793474746!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357b6ecb95340371%3A0xb1ce956bdc415777!2z6rK96riw64+EIOyViOyCsOyLnCDsg4HroZ3qtawg67O47Jqs64-ZIDY2Ni05!5e0!3m2!1sko!2skr!4v1708004368413!5m2!1sko!2skr"
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                    <div class="location-info">
+                        <p class="address-main">경기도 안산시 상록구 샘골로 40</p>
+                        <p class="address-sub">경기도 안산시 상록구 본오동 666-9</p>
+                        <p class="address-sub">주차 공간이 마땅치 않습니다. 자차로 오시는 분들은 주의하시기 바랍니다.</p>
+                        
+                        <!-- <div class="location-details">
+                            <div class="location-detail">
+                                <div class="location-detail-icon">🚗</div>
+                                <p class="location-detail-title">주차</p>
+                                <p class="location-detail-value">주차 가능</p>
+                            </div>
+                            <div class="location-detail">
+                                <div class="location-detail-icon">🚌</div>
+                                <p class="location-detail-title">대중교통</p>
+                                <p class="location-detail-value">버스 이용 가능</p>
+                            </div>
+                            <div class="location-detail">
+                                <div class="location-detail-icon">📞</div>
+                                <p class="location-detail-title">문의</p>
+                                <p class="location-detail-value">전화 문의</p>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-top">
+                <div class="footer-links">
+                    <a href="http://home.kaicam.org/index.asp" target="_blank">KAICAM</a>
+                    <span class="footer-divider">|</span>
+                    <!-- <a href="#church-intro">교회소개</a>
+                    <span class="footer-divider">|</span>
+                    <a href="#worship-info">예배안내</a>
+                    <span class="footer-divider">|</span> -->
+                    <a href="sundayschool.html">주일학교</a>
+                    <span class="footer-divider">|</span>
+                    <a href="https://open.kakao.com/o/scbvDSfg" target="_blank">온라인 등록</a>
+                </div>
+            </div>
+            
+            <div class="footer-main">
+                <div class="footer-info">
+                    <div class="footer-logo-section">
+                        <img src="assets/images/logo_ver3.png" alt="예슈아 사랑교회" class="footer-logo">
+                    </div>
+                    
+                    <div class="footer-contact">
+                        <p class="footer-church-name">예슈아 사랑교회</p>
+                        <p class="footer-address">
+                            <strong>[본당]</strong> 경기도 안산시 상록구 샘골로 40 (본오동) | 경기도 안산시 상록구 본오동 666-9
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p class="footer-copyright">
+                    Copyright © 예슈아 사랑교회. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Popup Modal -->
+    <div id="popupModal" class="popup-modal">
+        <div class="popup-content">
+            <button class="popup-close" id="popupClose">&times;</button>
+            <div id="popupBody"></div>
+        </div>
+    </div>
+
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    
+    <!-- Scripts -->
+    <script src="js/app.js"></script>
+    <script src="js/swiper-init.js"></script>
+    <script src="js/popup.js"></script>
+    <script src="js/scroll-animation.js"></script>
 </body>
 </html>
