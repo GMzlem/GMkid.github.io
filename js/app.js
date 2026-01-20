@@ -65,10 +65,13 @@
                 
                 const target = document.querySelector(href);
                 if (target) {
-                    const offsetTop = target.offsetTop - 100; // Navbar height
+                    // Use getBoundingClientRect for more accurate positioning
+                    const navbarHeight = navbar ? navbar.offsetHeight : 80;
+                    const targetPosition = target.getBoundingClientRect().top + window.pageYOffset;
+                    const offsetPosition = targetPosition - navbarHeight - 20; // 20px extra padding
                     
                     window.scrollTo({
-                        top: offsetTop,
+                        top: offsetPosition,
                         behavior: 'smooth'
                     });
 
