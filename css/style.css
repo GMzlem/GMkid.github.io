@@ -324,6 +324,22 @@
     color: #888;
 }
 
+footer .credit {
+    font-size: 0.85rem;
+    color: #9ca3af;
+    margin-top: 8px;
+}
+
+footer .credit a {
+    color: #6b7280;
+    text-decoration: none;
+}
+
+footer .credit a:hover {
+    color: #4a9eff;
+    text-decoration: underline;
+}
+
 /* Responsive */
 @media screen and (max-width: 768px) {
     .footer {

@@ -1,3 +1,116 @@
+/* ========================================
+   Top Bar (최상단 유틸리티 바)
+   ======================================== */
+.top-bar {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    top: 0;
+    z-index: 100;
+}
+
+.top-bar-container {
+    max-width: 1250px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.top-bar-left,
+.top-bar-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.top-bar-link {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.8rem;
+    font-weight: 400;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.top-bar-link:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.top-bar-link span {
+    font-size: 0.85rem;
+}
+
+.top-bar-login-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 4px 12px;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.8rem;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.top-bar-login-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.top-bar-divider {
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 0.8rem;
+}
+
+.top-bar-auth {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.top-bar-user-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.8rem;
+}
+
+.top-bar-user-name {
+    font-weight: 500;
+}
+
+.top-bar-admin-badge {
+    display: inline-block;
+    padding: 2px 6px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+.top-bar-logout-btn {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.9);
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.top-bar-logout-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.5);
+    color: white;
+}
+
 /* Navigation Bar */
 .navbar {
     position: sticky;
@@ -157,67 +270,9 @@
     }
 }
 
-
 /* ========================================
-   Header Auth Button Styles
+   Mobile Login Item (사이드 메뉴용)
    ======================================== */
-.header-auth {
-    position: absolute;
-    right: 80px;
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.header-login-btn {
-    padding: 8px 20px;
-    background: linear-gradient(135deg, #2c5aa0 0%, #1e4a7a 100%);
-    color: white;
-    border: none;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 8px rgba(44, 90, 160, 0.2);
-}
-
-.header-login-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(44, 90, 160, 0.3);
-}
-
-.header-user-info {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.header-user-name {
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--text-dark);
-}
-
-.header-logout-btn {
-    padding: 6px 16px;
-    background: transparent;
-    color: var(--text-dark);
-    border: 1px solid #ddd;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.header-logout-btn:hover {
-    background: #f5f5f5;
-    border-color: #ccc;
-}
-
-/* Mobile Login Item */
 .mobile-login-item {
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     margin-bottom: 10px;
@@ -232,7 +287,25 @@
 
 /* Responsive */
 @media (max-width: 768px) {
-    .header-auth {
-        display: none;
+    .top-bar-container {
+        padding: 6px 15px;
+    }
+    
+    .top-bar-left {
+        display: none; /* 모바일에서는 홈으로 버튼 숨김 */
+    }
+    
+    .top-bar-link {
+        font-size: 0.75rem;
+        padding: 3px 6px;
+    }
+    
+    .top-bar-user-name {
+        display: none; /* 모바일에서는 이름 숨김 */
+    }
+    
+    .top-bar-admin-badge {
+        font-size: 0.65rem;
+        padding: 2px 4px;
     }
 }

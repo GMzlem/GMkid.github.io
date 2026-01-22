@@ -5,7 +5,7 @@
 import { onAuthChange, logout } from './auth.js';
 
 // DOM Elements
-const headerLoginBtn = document.getElementById('headerLoginBtn');
+const topBarLoginBtn = document.getElementById('topBarLoginBtn');
 const mobileLoginBtn = document.getElementById('mobileLoginBtn');
 
 let currentUser = null;
@@ -26,7 +26,7 @@ onAuthChange((user, admin) => {
 function updateAuthUI() {
     if (currentUser) {
         // User is logged in
-        updateHeaderAuthUI();
+        updateTopBarAuthUI();
         updateMobileAuthUI();
     } else {
         // User is not logged in
@@ -35,24 +35,25 @@ function updateAuthUI() {
 }
 
 // ========================================
-// Header Auth UI (Desktop)
+// Top Bar Auth UI (Desktop)
 // ========================================
-function updateHeaderAuthUI() {
-    const headerAuth = document.querySelector('.header-auth');
+function updateTopBarAuthUI() {
+    const topBarAuth = document.getElementById('topBarAuth');
     
     // Get user display name (email without @domain)
     const displayName = getUserDisplayName(currentUser.email);
     
-    headerAuth.innerHTML = `
-        <div class="header-user-info">
-            <span class="header-user-name">${displayName}님</span>
-            ${isUserAdmin ? '<span style="color: #d4af37; font-size: 0.75rem;">관리자</span>' : ''}
-            <button class="header-logout-btn" id="headerLogoutBtn">로그아웃</button>
+    topBarAuth.innerHTML = `
+        <div class="top-bar-user-info">
+            <span class="top-bar-user-name">${displayName}님</span>
+            ${isUserAdmin ? '<span class="top-bar-admin-badge">관리자</span>' : ''}
         </div>
+        <span class="top-bar-divider">|</span>
+        <button class="top-bar-logout-btn" id="topBarLogoutBtn">로그아웃</button>
     `;
     
     // Add logout event listener
-    const logoutBtn = document.getElementById('headerLogoutBtn');
+    const logoutBtn = document.getElementById('topBarLogoutBtn');
     if (logoutBtn) {
         logoutBtn.addEventListener('click', handleLogout);
     }
@@ -88,25 +89,29 @@ function updateMobileAuthUI() {
 // Reset Auth UI (Not Logged In)
 // ========================================
 function resetAuthUI() {
-    // Reset header
-    const headerAuth = document.querySelector('.header-auth');
-    headerAuth.innerHTML = `
-        <button class="header-login-btn" id="headerLoginBtn">로그인</button>
+    // Reset top bar
+    const topBarAuth = document.getElementById('topBarAuth');
+    topBarAuth.innerHTML = `
+        <button class="top-bar-link top-bar-login-btn" id="topBarLoginBtn">로그인</button>
+        <span class="top-bar-divider">|</span>
+        <a href="login.html?tab=signup" class="top-bar-link">회원가입</a>
     `;
     
     // Add login event listener
-    const newHeaderLoginBtn = document.getElementById('headerLoginBtn');
-    if (newHeaderLoginBtn) {
-        newHeaderLoginBtn.addEventListener('click', () => {
+    const newTopBarLoginBtn = document.getElementById('topBarLoginBtn');
+    if (newTopBarLoginBtn) {
+        newTopBarLoginBtn.addEventListener('click', () => {
             window.location.href = 'login.html';
         });
     }
     
     // Reset mobile menu
     const mobileLoginItem = document.querySelector('.mobile-login-item');
-    mobileLoginItem.innerHTML = `
-        <a href="login.html" id="mobileLoginBtn" class="mobile-login-link">로그인</a>
-    `;
+    if (mobileLoginItem) {
+        mobileLoginItem.innerHTML = `
+            <a href="login.html" id="mobileLoginBtn" class="mobile-login-link">로그인</a>
+        `;
+    }
 }
 
 // ========================================
@@ -142,8 +147,8 @@ function getUserDisplayName(email) {
 // ========================================
 // Initial Setup
 // ========================================
-if (headerLoginBtn) {
-    headerLoginBtn.addEventListener('click', () => {
+if (topBarLoginBtn) {
+    topBarLoginBtn.addEventListener('click', () => {
         window.location.href = 'login.html';
     });
 }

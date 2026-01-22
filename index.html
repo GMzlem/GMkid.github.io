@@ -62,15 +62,25 @@
     <link rel="stylesheet" href="css/scroll-animations.css">
 </head>
 <body>
-    <!-- Header -->
+    <!-- Top Bar (최상단 유틸리티 바) -->
+    <div class="top-bar">
+        <div class="top-bar-container">
+            <div class="top-bar-left">
+            </div>
+            <div class="top-bar-right">
+                <div class="top-bar-auth" id="topBarAuth">
+                    <button class="top-bar-link top-bar-login-btn" id="topBarLoginBtn">로그인</button>
+                    <span class="top-bar-divider">|</span>
+                    <a href="login.html?tab=signup" class="top-bar-link">회원가입</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header (교회 타이틀) -->
     <header class="header">
         <div class="header-shadow"></div>
         <h1 class="header-title">예슈아 사랑교회</h1>
-        
-        <!-- Login Button (Desktop) -->
-        <div class="header-auth">
-            <button class="header-login-btn" id="headerLoginBtn">로그인</button>
-        </div>
         
         <!-- Mobile Hamburger Menu Button -->
         <div class="menu-toggle" id="menuToggle">
@@ -205,8 +215,12 @@
                 <div class="sermon-grid">
                     <div class="sermon-main">
                         <a href="sermon.html">
+                            <!-- 
+                                sermon.jpg 이미지 출처:
+                                https://goodday1318.tistory.com/37#google_vignette
+                            -->
                             <div class="sermon-video">
-                                <img src="assets/images/sunday_1.png" alt="주일 설교">
+                                <img src="assets/images/sermon.jpg" alt="주일 설교">
                             </div>
                             <div class="sermon-info">
                                 <h3 class="sermon-title">가르치며 전파하며 고치는 제자되자!</h3>
@@ -450,6 +464,7 @@
             <div class="footer-bottom">
                 <p class="footer-copyright">
                     Copyright © 예슈아 사랑교회. All rights reserved.
+                    <p class="credit">말씀 이미지: <a href="https://goodday1318.tistory.com/37" target="_blank">또하나의사과나무</a></p>
                 </p>
             </div>
         </div>
