@@ -67,6 +67,11 @@
         <div class="header-shadow"></div>
         <h1 class="header-title">예슈아 사랑교회</h1>
         
+        <!-- Login Button (Desktop) -->
+        <div class="header-auth">
+            <button class="header-login-btn" id="headerLoginBtn">로그인</button>
+        </div>
+        
         <!-- Mobile Hamburger Menu Button -->
         <div class="menu-toggle" id="menuToggle">
             <span></span>
@@ -149,6 +154,11 @@
             <span></span>
             <span></span>
         </div>
+        
+        <!-- Login Item (Mobile) -->
+        <li class="mobile-login-item">
+            <a href="#" id="mobileLoginBtn" class="mobile-login-link">로그인</a>
+        </li>
         
         <li><a href="#church-intro">교회소개</a></li>
         <li><a href="#worship-info">예배안내</a></li>
@@ -387,17 +397,14 @@
                         
                         <!-- <div class="location-details">
                             <div class="location-detail">
-                                <div class="location-detail-icon">🚗</div>
                                 <p class="location-detail-title">주차</p>
                                 <p class="location-detail-value">주차 가능</p>
                             </div>
                             <div class="location-detail">
-                                <div class="location-detail-icon">🚌</div>
                                 <p class="location-detail-title">대중교통</p>
                                 <p class="location-detail-value">버스 이용 가능</p>
                             </div>
                             <div class="location-detail">
-                                <div class="location-detail-icon">📞</div>
                                 <p class="location-detail-title">문의</p>
                                 <p class="location-detail-value">전화 문의</p>
                             </div>
@@ -464,5 +471,6 @@
     <script src="js/swiper-init.js"></script>
     <script src="js/popup.js"></script>
     <script src="js/scroll-animation.js"></script>
+    <script type="module" src="js/auth-ui.js"></script>
 </body>
 </html>

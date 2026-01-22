@@ -530,3 +530,77 @@ body {
     background: #cbd5e0;
     border-radius: 3px;
 }
+/* ========================================
+   Auth Section Styles
+   ======================================== */
+.auth-section {
+    padding: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.auth-btn,
+.admin-btn {
+    width: 100%;
+    padding: 12px 20px;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    color: var(--white);
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+}
+
+.auth-btn:hover,
+.admin-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+.admin-btn {
+    background: rgba(255, 215, 0, 0.3);
+    border-color: rgba(255, 215, 0, 0.5);
+}
+
+.admin-btn:hover {
+    background: rgba(255, 215, 0, 0.4);
+}
+
+/* ========================================
+   Delete Sermon Button
+   ======================================== */
+.delete-sermon-btn {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 6px 12px;
+    background: #ef4444;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 10;
+}
+
+.delete-sermon-btn:hover {
+    background: #dc2626;
+    transform: translateY(-50%) scale(1.05);
+}
+
+.date-item {
+    position: relative;
+}
+
+.date-item:has(.delete-sermon-btn) .date-item-title {
+    padding-right: 80px;
+}

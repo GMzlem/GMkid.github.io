@@ -1,0 +1,304 @@
+/* ========================================
+   Admin Page Styles
+   ======================================== */
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif;
+    background: #f3f4f6;
+    padding: 20px;
+}
+
+.admin-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* ========================================
+   Admin Header
+   ======================================== */
+.admin-header {
+    background: linear-gradient(135deg, #1e4a7a 0%, #2c5aa0 100%);
+    color: white;
+    padding: 30px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.admin-header h1 {
+    font-size: 1.8rem;
+}
+
+.logout-btn {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.logout-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* ========================================
+   Form Card
+   ======================================== */
+.form-card {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+.form-card h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: #1f2937;
+}
+
+/* ========================================
+   Form Elements
+   ======================================== */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #374151;
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: inherit;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #2c5aa0;
+}
+
+.form-group textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+
+/* ========================================
+   Page Sections
+   ======================================== */
+.page-section {
+    background: #f9fafb;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.page-section h3 {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    color: #374151;
+}
+
+/* Quill Editor Styles */
+.editor-container {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.quill-editor {
+    min-height: 300px;
+    font-size: 1rem;
+}
+
+.ql-toolbar {
+    background: #f9fafb;
+    border: 2px solid #e5e7eb !important;
+    border-bottom: none !important;
+    border-radius: 8px 8px 0 0;
+}
+
+.ql-container {
+    border: 2px solid #e5e7eb !important;
+    border-radius: 0 0 8px 8px;
+    font-family: inherit;
+}
+
+.ql-editor {
+    min-height: 300px;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.ql-editor.ql-blank::before {
+    color: #9ca3af;
+    font-style: normal;
+}
+
+.ql-toolbar.ql-snow .ql-picker-label:hover,
+.ql-toolbar.ql-snow .ql-picker-label.ql-active,
+.ql-toolbar.ql-snow button:hover,
+.ql-toolbar.ql-snow button:focus,
+.ql-toolbar.ql-snow button.ql-active {
+    color: #2c5aa0 !important;
+}
+
+.ql-toolbar.ql-snow .ql-stroke {
+    stroke: #6b7280;
+}
+
+.ql-toolbar.ql-snow .ql-stroke:hover,
+.ql-toolbar.ql-snow button:hover .ql-stroke,
+.ql-toolbar.ql-snow button.ql-active .ql-stroke {
+    stroke: #2c5aa0;
+}
+
+.ql-toolbar.ql-snow .ql-fill {
+    fill: #6b7280;
+}
+
+.ql-toolbar.ql-snow .ql-fill:hover,
+.ql-toolbar.ql-snow button:hover .ql-fill,
+.ql-toolbar.ql-snow button.ql-active .ql-fill {
+    fill: #2c5aa0;
+}
+
+.page-controls {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.add-page-btn,
+.remove-page-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+}
+
+.add-page-btn {
+    background: #10b981;
+    color: white;
+}
+
+.add-page-btn:hover {
+    background: #059669;
+}
+
+.remove-page-btn {
+    background: #ef4444;
+    color: white;
+}
+
+.remove-page-btn:hover {
+    background: #dc2626;
+}
+
+/* ========================================
+   Buttons
+   ======================================== */
+.submit-btn {
+    width: 100%;
+    padding: 14px;
+    background: #2c5aa0;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.submit-btn:hover {
+    background: #1e4a7a;
+    transform: translateY(-2px);
+}
+
+.submit-btn:disabled {
+    background: #9ca3af;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* ========================================
+   Messages
+   ======================================== */
+.success-message,
+.error-message {
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: none;
+}
+
+.success-message {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.error-message {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+/* ========================================
+   Links
+   ======================================== */
+.back-link {
+    display: inline-block;
+    margin-top: 20px;
+    color: #6b7280;
+    text-decoration: none;
+}
+
+.back-link:hover {
+    color: #2c5aa0;
+}
+
+/* ========================================
+   Auth Guard
+   ======================================== */
+.auth-guard {
+    display: none;
+}
+
+.auth-guard.active {
+    display: block;
+}
+
+.loading {
+    text-align: center;
+    padding: 50px;
+    color: #6b7280;
+}
+
+/* ========================================
+   Responsive
+   ======================================== */
+@media (max-width: 768px) {
+    .admin-header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+}

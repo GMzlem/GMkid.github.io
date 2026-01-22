@@ -1,6 +1,17 @@
 // ========================================
-// Sermon Page JavaScript
+// Sermon Page JavaScript with Firebase
 // ========================================
+
+import { db } from './firebase-config.js';
+import { onAuthChange, isAdmin, getCurrentUser } from './auth.js';
+import { 
+    collection, 
+    query, 
+    orderBy, 
+    getDocs,
+    deleteDoc,
+    doc
+} from 'https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js';
 
 (function() {
     'use strict';
@@ -28,11 +39,126 @@
     const sidebar = document.getElementById('sidebar');
     const sidebarClose = document.getElementById('sidebarClose');
 
+    // Auth Elements
+    const authButton = document.getElementById('authButton');
+    const adminButton = document.getElementById('adminButton');
+
     // State
     let currentService = null;
     let currentDate = null;
     let currentPage = 0;
     let currentContent = null;
+    let currentUser = null;
+    let isUserAdmin = false;
+
+    // Sermon Data (will be loaded from Firebase)
+    let sermonData = {
+        'sunday-morning': [],
+        'sunday-afternoon': [],
+        'wednesday': [],
+        'friday': [],
+        'sunday-school': []
+    };
+    let sermonsLoaded = false;  // 로드 여부 플래그
+
+    // ========================================
+    // Authentication State
+    // ========================================
+    onAuthChange((user, admin) => {
+        currentUser = user;
+        isUserAdmin = admin;
+        updateAuthUI();
+    });
+
+    // ========================================
+    // Load ALL Sermons on Page Load (Once)
+    // ========================================
+    async function loadAllSermons() {
+        if (sermonsLoaded) {
+            console.log('이미 로드됨 - 스킵');
+            return;
+        }
+        
+        console.log('설교 데이터 로드 시작...');
+        
+        try {
+            const sermonsRef = collection(db, 'sermons');
+            const q = query(sermonsRef, orderBy('timestamp', 'desc'));
+            const querySnapshot = await getDocs(q);
+            
+            console.log('Firestore에서 가져온 문서 수:', querySnapshot.size);
+            
+            // Clear all arrays
+            Object.keys(sermonData).forEach(key => {
+                sermonData[key] = [];
+            });
+            
+            // Group sermons by service type
+            querySnapshot.forEach((docSnap) => {
+                const data = docSnap.data();
+                const serviceType = data.service;
+                
+                console.log('문서 처리:', docSnap.id, '타입:', serviceType);
+                
+                if (sermonData[serviceType]) {
+                    sermonData[serviceType].push({
+                        id: docSnap.id,
+                        date: data.date,
+                        title: data.title,
+                        content: data.content || [],
+                        service: data.service
+                    });
+                } else {
+                    console.warn('알 수 없는 서비스 타입:', serviceType);
+                }
+            });
+            
+            sermonsLoaded = true;
+            console.log('✅ 모든 설교 로드 완료!');
+            console.log('📊 데이터:', sermonData);
+        } catch (error) {
+            console.error('❌ 설교 로드 실패:', error);
+            alert('설교를 불러오는데 실패했습니다. Firebase 설정을 확인해주세요.');
+        }
+    }
+
+    // 페이지 로드 시 모든 설교 미리 로드
+    console.log('페이지 로드 - 설교 데이터 로드 시작');
+    loadAllSermons();
+
+    function updateAuthUI() {
+        if (currentUser) {
+            if (authButton) {
+                authButton.textContent = '로그아웃';
+                authButton.onclick = handleLogout;
+            }
+            if (adminButton && isUserAdmin) {
+                adminButton.style.display = 'block';
+            } else if (adminButton) {
+                adminButton.style.display = 'none';
+            }
+        } else {
+            if (authButton) {
+                authButton.textContent = '로그인';
+                authButton.onclick = handleLogin;
+            }
+            if (adminButton) {
+                adminButton.style.display = 'none';
+            }
+        }
+    }
+
+    function handleLogin() {
+        window.location.href = 'login.html';
+    }
+
+    async function handleLogout() {
+        const { logout } = await import('./auth.js');
+        const result = await logout();
+        if (result.success) {
+            alert('로그아웃되었습니다.');
+        }
+    }
 
     // ========================================
     // Mobile Menu Functions
@@ -69,87 +195,30 @@
     }
 
     // ========================================
-    // Sample Data (Replace with real data)
-    // ========================================
-    // const sermonData = {
-    //     'sunday-morning': [
-    //         {
-    //             date: '2026.01.19',
-    //             title: '주일오전예배 - 믿음으로 사는 삶',
-    //             content: [
-    //                 '<h3>본문: 히브리서 11:1-6</h3><p>믿음은 바라는 것들의 실상이요 보이지 않는 것들의 증거니...</p><p>오늘 말씀을 통해 우리는 믿음의 본질에 대해 배우게 됩니다. 믿음은 단순한 지적 동의가 아니라, 하나님을 향한 전인격적 신뢰입니다.</p>',
-    //                 '<h3>1. 믿음의 정의</h3><p>믿음은 바라는 것들의 실상입니다. 우리가 소망하는 것들이 이미 이루어진 것처럼 확신하는 것입니다.</p><p>보이지 않는 것들의 증거입니다. 눈으로 볼 수 없지만 실재하는 영적 세계를 받아들이는 것입니다.</p>',
-    //                 '<h3>2. 믿음으로 산 선진들</h3><p>히브리서 11장은 믿음의 장이라 불립니다. 아벨, 에녹, 노아, 아브라함 등 믿음의 선진들이 어떻게 살았는지 보여줍니다.</p><p>그들은 약속을 받았으나 이루지 못했지만, 믿음으로 끝까지 하나님을 신뢰했습니다.</p>',
-    //                 '<h3>결론</h3><p>우리도 믿음으로 살아가야 합니다. 보이는 것이 아니라 보이지 않는 것을 바라보며, 하나님의 약속을 붙잡고 나아가야 합니다.</p><p>오늘도 믿음으로 승리하는 하루가 되시기를 축복합니다.</p>'
-    //             ]
-    //         },
-    //         {
-    //             date: '2026.01.12',
-    //             title: '주일오전예배 - 사랑의 계명',
-    //             content: [
-    //                 '<h3>본문: 요한복음 13:34-35</h3><p>새 계명을 너희에게 주노니 서로 사랑하라...</p><p>예수님께서 제자들에게 주신 새 계명은 바로 서로 사랑하라는 것입니다.</p>'
-    //             ]
-    //         }
-    //     ],
-    //     'sunday-afternoon': [
-    //         {
-    //             date: '2026.01.19',
-    //             title: '주일오후예배 - 기도의 능력',
-    //             content: [
-    //                 '<h3>본문: 야고보서 5:16-18</h3><p>의인의 간구는 역사하는 힘이 큽니다...</p>'
-    //             ]
-    //         }
-    //     ],
-    //     'wednesday': [
-    //         {
-    //             date: '2026.01.15',
-    //             title: '수요예배 - 말씀 묵상',
-    //             content: [
-    //                 '<h3>본문: 시편 1편</h3><p>복 있는 사람은 악인들의 꾀를 따르지 아니하며...</p>'
-    //             ]
-    //         }
-    //     ],
-    //     'friday': [
-    //         {
-    //             date: '2026.01.17',
-    //             title: '금요예배 - 찬양과 경배',
-    //             content: [
-    //                 '<h3>본문: 시편 150편</h3><p>할렐루야 그의 성소에서 하나님을 찬양하라...</p>'
-    //             ]
-    //         }
-    //     ],
-    //     'sunday-school': [
-    //         {
-    //             date: '2026.01.19',
-    //             title: '주일학교 - 다윗과 골리앗',
-    //             content: [
-    //                 '<h3>본문: 사무엘상 17장</h3><p>다윗은 작은 소년이었지만 하나님을 믿는 큰 믿음이 있었습니다...</p>'
-    //             ]
-    //         }
-    //     ]
-    // };
-
-    const sermonData = {
-        'sunday-morning': [],
-        'sunday-afternoon': [],
-        'wednesday': [],
-        'friday': [],
-        'sunday-school': []
-    };
-
-    // ========================================
     // Service Button Click
     // ========================================
     serviceButtons.forEach(btn => {
-        btn.addEventListener('click', function() {
+        btn.addEventListener('click', async function() {
             const service = this.getAttribute('data-service');
             currentService = service;
+            
+            console.log('🔘 버튼 클릭:', service);
 
             // Update active state
             serviceButtons.forEach(b => b.classList.remove('active'));
             this.classList.add('active');
 
-            // Open date panel
+            // 데이터가 로드되지 않았으면 로드
+            if (!sermonsLoaded) {
+                console.log('⏳ 데이터 로딩 중...');
+                await loadAllSermons();
+            } else {
+                console.log('✅ 캐시된 데이터 사용');
+            }
+            
+            console.log(`📋 ${service} 설교 개수:`, sermonData[service].length);
+
+            // Open date panel (캐시된 데이터 사용)
             openDatePanel(service);
         });
     });
@@ -158,33 +227,92 @@
     // Date Panel Functions
     // ========================================
     function openDatePanel(service) {
+        console.log('📅 openDatePanel 호출:', service);
+        
         const serviceName = getServiceName(service);
         datePanelTitle.textContent = serviceName + ' 날짜 선택';
 
         // Populate dates
         const dates = sermonData[service] || [];
+        console.log('📋 날짜 목록:', dates);
+        
         dateList.innerHTML = '';
 
         if (dates.length === 0) {
+            console.log('⚠️ 설교 없음');
             dateList.innerHTML = '<p style="padding: 20px; text-align: center; color: #999;">등록된 설교가 없습니다.</p>';
         } else {
+            console.log(`✅ ${dates.length}개 설교 표시`);
             dates.forEach((sermon, index) => {
                 const dateItem = document.createElement('div');
                 dateItem.className = 'date-item';
-                dateItem.innerHTML = `
+                
+                let itemHTML = `
                     <div class="date-item-date">${sermon.date}</div>
                     <div class="date-item-title">${sermon.title}</div>
                 `;
-                dateItem.addEventListener('click', function() {
-                    selectDate(service, index);
+
+                // Add delete button for admin
+                if (isUserAdmin) {
+                    itemHTML += `
+                        <button class="delete-sermon-btn" data-sermon-id="${sermon.id}" data-index="${index}">
+                            삭제
+                        </button>
+                    `;
+                }
+
+                dateItem.innerHTML = itemHTML;
+                
+                // Click on date item (not delete button)
+                dateItem.addEventListener('click', function(e) {
+                    if (!e.target.classList.contains('delete-sermon-btn')) {
+                        selectDate(service, index);
+                    }
                 });
+
+                // Delete button event
+                if (isUserAdmin) {
+                    const deleteBtn = dateItem.querySelector('.delete-sermon-btn');
+                    if (deleteBtn) {
+                        deleteBtn.addEventListener('click', async function(e) {
+                            e.stopPropagation();
+                            if (confirm('정말로 이 설교를 삭제하시겠습니까?')) {
+                                await deleteSermon(sermon.id, service, index);
+                            }
+                        });
+                    }
+                }
+
                 dateList.appendChild(dateItem);
             });
         }
 
         // Show panel
+        console.log('🎬 패널 열기 시도...');
+        console.log('datePanel:', datePanel);
+        console.log('panelOverlay:', panelOverlay);
+        
         datePanel.classList.add('active');
         panelOverlay.classList.add('active');
+        
+        console.log('✅ 패널 클래스 추가 완료');
+        console.log('datePanel has active:', datePanel.classList.contains('active'));
+    }
+
+    async function deleteSermon(sermonId, service, index) {
+        try {
+            await deleteDoc(doc(db, 'sermons', sermonId));
+            alert('설교가 삭제되었습니다.');
+            
+            // Remove from local data
+            sermonData[service].splice(index, 1);
+            
+            // Refresh panel
+            openDatePanel(service);
+        } catch (error) {
+            console.error('Error deleting sermon:', error);
+            alert('삭제 중 오류가 발생했습니다.');
+        }
     }
 
     function closeDatePanel() {

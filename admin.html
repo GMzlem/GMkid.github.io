@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>관리자 페이지 - 예슈아 사랑교회</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <!-- Quill Editor -->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+</head>
+<body>
+    <div class="loading" id="loading">로딩 중...</div>
+
+    <div class="admin-container auth-guard" id="adminContent">
+        <div class="admin-header">
+            <h1>설교 관리</h1>
+            <button class="logout-btn" id="logoutBtn">로그아웃</button>
+        </div>
+
+        <div class="success-message" id="successMessage"></div>
+        <div class="error-message" id="errorMessage"></div>
+
+        <div class="form-card">
+            <h2>새 설교 추가</h2>
+            <form id="sermonForm">
+                <div class="form-group">
+                    <label for="service">예배 유형</label>
+                    <select id="service" required>
+                        <option value="">선택하세요</option>
+                        <option value="sunday-morning">주일오전예배</option>
+                        <option value="sunday-afternoon">주일오후예배</option>
+                        <option value="wednesday">수요예배</option>
+                        <option value="friday">금요예배</option>
+                        <option value="sunday-school">주일학교</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="date">날짜 (YYYY.MM.DD)</label>
+                    <input 
+                        type="text" 
+                        id="date" 
+                        required 
+                        placeholder="2026.01.19"
+                        pattern="\d{4}\.\d{2}\.\d{2}"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="title">제목</label>
+                    <input 
+                        type="text" 
+                        id="title" 
+                        required 
+                        placeholder="주일오전예배 - 믿음으로 사는 삶"
+                    >
+                </div>
+
+                <div id="pagesContainer">
+                    <div class="page-section" data-page="0">
+                        <h3>페이지 1</h3>
+                        <div class="editor-container">
+                            <div id="editor-0" class="quill-editor"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="page-controls">
+                    <button type="button" class="add-page-btn" id="addPageBtn">
+                        + 페이지 추가
+                    </button>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    설교 추가
+                </button>
+            </form>
+
+            <a href="sermon.html" class="back-link">← 설교 페이지로 돌아가기</a>
+        </div>
+    </div>
+
+    <!-- Quill JS -->
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
+    <script type="module">
+        import { db } from './js/firebase-config.js';
+        import { onAuthChange, logout } from './js/auth.js';
+        import { 
+            collection, 
+            addDoc,
+            serverTimestamp
+        } from 'https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js';
+
+        const loading = document.getElementById('loading');
+        const adminContent = document.getElementById('adminContent');
+        const sermonForm = document.getElementById('sermonForm');
+        const pagesContainer = document.getElementById('pagesContainer');
+        const addPageBtn = document.getElementById('addPageBtn');
+        const submitBtn = document.getElementById('submitBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const successMessage = document.getElementById('successMessage');
+        const errorMessage = document.getElementById('errorMessage');
+
+        let pageCount = 1;
+        let editors = {};
+
+        // Quill toolbar options
+        const toolbarOptions = [
+            [{ 'header': [1, 2, 3, false] }],
+            ['bold', 'italic', 'underline', 'strike'],
+            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+            [{ 'indent': '-1'}, { 'indent': '+1' }],
+            [{ 'color': [] }, { 'background': [] }],
+            [{ 'align': [] }],
+            ['blockquote', 'code-block'],
+            ['link'],
+            ['clean']
+        ];
+
+        // Initialize first editor
+        function initializeEditor(id, placeholder = '설교 내용을 입력하세요...\n\n예시:\n제목을 입력하고 [H1] 버튼으로 크게 만들 수 있어요.\n중요한 부분은 [B] 버튼으로 굵게 표시하세요.') {
+            const editor = new Quill(`#${id}`, {
+                theme: 'snow',
+                placeholder: placeholder,
+                modules: {
+                    toolbar: toolbarOptions
+                }
+            });
+            editors[id] = editor;
+            return editor;
+        }
+
+        // Initialize first editor on load
+        initializeEditor('editor-0');
+
+        // Check auth state
+        onAuthChange((user, isAdmin) => {
+            loading.style.display = 'none';
+            
+            if (!user || !isAdmin) {
+                alert('관리자 권한이 필요합니다.');
+                window.location.href = 'login.html';
+            } else {
+                adminContent.classList.add('active');
+            }
+        });
+
+        // Logout
+        logoutBtn.addEventListener('click', async () => {
+            const result = await logout();
+            if (result.success) {
+                window.location.href = 'sermon.html';
+            }
+        });
+
+        // Add page
+        addPageBtn.addEventListener('click', () => {
+            const editorId = `editor-${pageCount}`;
+            const pageSection = document.createElement('div');
+            pageSection.className = 'page-section';
+            pageSection.setAttribute('data-page', pageCount);
+            pageSection.innerHTML = `
+                <h3>페이지 ${pageCount + 1}</h3>
+                <div class="editor-container">
+                    <div id="${editorId}" class="quill-editor"></div>
+                </div>
+                <div class="page-controls">
+                    <button type="button" class="remove-page-btn" onclick="this.closest('.page-section').remove()">
+                        × 페이지 삭제
+                    </button>
+                </div>
+            `;
+            pagesContainer.appendChild(pageSection);
+            
+            // Initialize new editor
+            initializeEditor(editorId, '계속해서 내용을 입력하세요...');
+            
+            pageCount++;
+        });
+
+        // Submit form
+        sermonForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const service = document.getElementById('service').value;
+            const date = document.getElementById('date').value;
+            const title = document.getElementById('title').value;
+            
+            // Get all editor contents
+            const pageContents = [];
+            const pageSections = document.querySelectorAll('.page-section');
+            
+            pageSections.forEach((section, index) => {
+                const editorId = `editor-${section.getAttribute('data-page')}`;
+                const editor = editors[editorId];
+                
+                if (editor) {
+                    const html = editor.root.innerHTML;
+                    // Check if editor has content (not just empty <p><br></p>)
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = html;
+                    const textContent = tempDiv.textContent.trim();
+                    
+                    if (textContent) {
+                        pageContents.push(html);
+                    }
+                }
+            });
+
+            if (pageContents.length === 0) {
+                showError('최소 하나의 페이지 내용을 입력해주세요.');
+                return;
+            }
+
+            // Disable submit button
+            submitBtn.disabled = true;
+            submitBtn.textContent = '추가 중...';
+            hideMessages();
+
+            try {
+                // Add to Firestore
+                await addDoc(collection(db, 'sermons'), {
+                    service: service,
+                    date: date,
+                    title: title,
+                    content: pageContents,
+                    timestamp: serverTimestamp()
+                });
+
+                showSuccess('설교가 성공적으로 추가되었습니다!');
+                
+                // Reset form
+                sermonForm.reset();
+                
+                // Reset editors
+                Object.values(editors).forEach(editor => {
+                    editor.setContents([]);
+                });
+                
+                // Reset pages
+                pagesContainer.innerHTML = `
+                    <div class="page-section" data-page="0">
+                        <h3>페이지 1</h3>
+                        <div class="editor-container">
+                            <div id="editor-0" class="quill-editor"></div>
+                        </div>
+                    </div>
+                `;
+                pageCount = 1;
+                editors = {};
+                initializeEditor('editor-0');
+
+            } catch (error) {
+                console.error('Error adding sermon:', error);
+                showError('설교 추가 중 오류가 발생했습니다: ' + error.message);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = '설교 추가';
+            }
+        });
+
+        function showSuccess(message) {
+            successMessage.textContent = message;
+            successMessage.style.display = 'block';
+            setTimeout(() => {
+                successMessage.style.display = 'none';
+            }, 5000);
+        }
+
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+        }
+
+        function hideMessages() {
+            successMessage.style.display = 'none';
+            errorMessage.style.display = 'none';
+        }
+    </script>
+</body>
+</html>
