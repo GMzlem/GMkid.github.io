@@ -52,6 +52,45 @@
     <!-- Swiper CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
     
+    <!-- Critical CSS - FOUC 방지 -->
+    <style>
+        /* 페이지 로드 시 깜빡임 방지 */
+        body {
+            opacity: 1 !important;
+        }
+        
+        /* 네비게이션바 초기 스타일 */
+        .navbar {
+            background-color: #ffffff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+        
+        .navbar-menu-desktop {
+            opacity: 1;
+        }
+        
+        /* 햄버거 메뉴 버튼 (모바일) */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex !important;
+            }
+        }
+        
+        /* Swiper 버튼 초기 스타일 */
+        .swiper-button-prev,
+        .swiper-button-next {
+            color: #2c5aa0;
+            opacity: 1;
+        }
+        
+        /* 스크롤 애니메이션 요소들 초기 표시 */
+        .scroll-animate,
+        .scroll-animate-children > * {
+            opacity: 1 !important;
+            transform: none !important;
+        }
+    </style>
+    
     <!-- CSS -->
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/style.css">
@@ -69,7 +108,9 @@
             </div>
             <div class="top-bar-right">
                 <div class="top-bar-auth" id="topBarAuth">
-                    <button class="top-bar-link top-bar-login-btn" id="topBarLoginBtn">로그인</button>
+                    <a href="index.html" class="top-bar-link">홈</a>
+                    <span class="top-bar-divider">|</span>
+                    <button class="top-bar-login-btn" id="topBarLoginBtn">로그인</button>
                     <span class="top-bar-divider">|</span>
                     <a href="login.html?tab=signup" class="top-bar-link">회원가입</a>
                 </div>

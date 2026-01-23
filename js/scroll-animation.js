@@ -1,5 +1,8 @@
 // Scroll Animation using Intersection Observer
 document.addEventListener('DOMContentLoaded', function() {
+    // JavaScript 로드 완료 표시 (CSS에서 애니메이션 활성화)
+    document.body.classList.add('js-loaded');
+    
     // Intersection Observer 옵션
     const observerOptions = {
         root: null, // viewport
@@ -47,6 +50,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     };
 
-    // 약간의 지연 후 초기 가시성 체크
-    setTimeout(checkInitialVisibility, 100);
+    // 페이지 로드 시 이미 화면에 보이는 요소들 즉시 처리
+    checkInitialVisibility();
 });

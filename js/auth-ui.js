@@ -44,6 +44,8 @@ function updateTopBarAuthUI() {
     const displayName = getUserDisplayName(currentUser.email);
     
     topBarAuth.innerHTML = `
+        <a href="index.html" class="top-bar-link">홈</a>
+        <span class="top-bar-divider">|</span>
         <div class="top-bar-user-info">
             <span class="top-bar-user-name">${displayName}님</span>
             ${isUserAdmin ? '<span class="top-bar-admin-badge">관리자</span>' : ''}
@@ -92,7 +94,9 @@ function resetAuthUI() {
     // Reset top bar
     const topBarAuth = document.getElementById('topBarAuth');
     topBarAuth.innerHTML = `
-        <button class="top-bar-link top-bar-login-btn" id="topBarLoginBtn">로그인</button>
+        <a href="index.html" class="top-bar-link">홈</a>
+        <span class="top-bar-divider">|</span>
+        <button class="top-bar-login-btn" id="topBarLoginBtn">로그인</button>
         <span class="top-bar-divider">|</span>
         <a href="login.html?tab=signup" class="top-bar-link">회원가입</a>
     `;

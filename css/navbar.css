@@ -1,10 +1,12 @@
 /* ========================================
-   Top Bar (최상단 유틸리티 바)
+   TOP BAR STYLES
+   index.html과 sundayschool.html에서만 사용
    ======================================== */
+
+/* Top Bar Container */
 .top-bar {
     background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    top: 0;
     z-index: 100;
 }
 
@@ -24,55 +26,87 @@
     gap: 15px;
 }
 
-.top-bar-link {
-    color: rgba(255, 255, 255, 0.9);
-    font-size: 0.8rem;
-    font-weight: 400;
-    text-decoration: none;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    padding: 4px 8px;
-    border-radius: 4px;
-}
-
-.top-bar-link:hover {
-    color: white;
-    background: rgba(255, 255, 255, 0.1);
-}
-
-.top-bar-link span {
-    font-size: 0.85rem;
-}
-
-.top-bar-login-btn {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 4px 12px;
-    color: rgba(255, 255, 255, 0.9);
-    font-size: 0.8rem;
-    border-radius: 4px;
-    transition: all 0.2s ease;
-}
-
-.top-bar-login-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
-}
-
-.top-bar-divider {
-    color: rgba(255, 255, 255, 0.3);
-    font-size: 0.8rem;
-}
-
+/* Top Bar Auth Container */
 .top-bar-auth {
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
+/* Top Bar Links */
+.top-bar-link {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.8rem;
+    font-weight: 400;
+    text-decoration: none;
+    padding: 8px 0;
+    display: inline-block;
+    position: relative;
+    transition: color 0.2s ease;
+}
+
+.top-bar-link:hover {
+    color: white;
+}
+
+.top-bar-link::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: white;
+    transform: scaleX(0);
+    transition: transform 0.2s ease;
+}
+
+.top-bar-link:hover::after {
+    transform: scaleX(1);
+}
+
+/* Top Bar Login Button */
+.top-bar-login-btn {
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 8px 0;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.8rem;
+    font-family: inherit;
+    display: inline-block;
+    position: relative;
+    transition: color 0.2s ease;
+}
+
+.top-bar-login-btn:hover {
+    color: white;
+}
+
+.top-bar-login-btn::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: white;
+    transform: scaleX(0);
+    transition: transform 0.2s ease;
+}
+
+.top-bar-login-btn:hover::after {
+    transform: scaleX(1);
+}
+
+/* Top Bar Divider */
+.top-bar-divider {
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 0.8rem;
+}
+
+/* Top Bar User Info (로그인 후) */
 .top-bar-user-info {
     display: flex;
     align-items: center;
@@ -86,7 +120,6 @@
 }
 
 .top-bar-admin-badge {
-    display: inline-block;
     padding: 2px 6px;
     background: rgba(255, 255, 255, 0.2);
     border-radius: 3px;
@@ -94,11 +127,12 @@
     font-weight: 600;
 }
 
+/* Top Bar Logout Button */
 .top-bar-logout-btn {
     background: transparent;
     border: 1px solid rgba(255, 255, 255, 0.3);
     color: rgba(255, 255, 255, 0.9);
-    padding: 3px 10px;
+    padding: 4px 10px;
     border-radius: 4px;
     font-size: 0.75rem;
     cursor: pointer;
@@ -106,12 +140,15 @@
 }
 
 .top-bar-logout-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.5);
+    border-color: rgba(255, 255, 255, 0.6);
     color: white;
 }
 
-/* Navigation Bar */
+/* ========================================
+   NAVIGATION BAR STYLES
+   index.html에서 사용
+   ======================================== */
+
 .navbar {
     position: sticky;
     top: 0;
@@ -127,8 +164,8 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
 
-.navbar-menu-desktop,
-.navbar-menu {
+/* Desktop Menu */
+.navbar-menu-desktop {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -139,71 +176,95 @@
     margin: 0 auto;
 }
 
-/* 모바일 메뉴는 기본적으로 숨김 */
-.navbar-menu {
-    display: none;
-}
-
-.navbar-menu-desktop li,
-.navbar-menu li {
-    position: relative;
-}
-
 .navbar-menu-desktop li a,
-.navbar-menu-desktop li .popup-trigger,
-.navbar-menu li a,
-.navbar-menu li .popup-trigger {
+.navbar-menu-desktop li .popup-trigger {
     display: block;
     padding: 10px 20px;
     color: var(--text-dark);
     font-size: 1rem;
     font-weight: 600;
-    transition: all 0.3s ease;
-    white-space: nowrap;
     border-radius: 8px;
+    white-space: nowrap;
+    transition: all 0.3s ease;
 }
 
 .navbar-menu-desktop li a:hover,
-.navbar-menu-desktop li .popup-trigger:hover,
-.navbar-menu li a:hover,
-.navbar-menu li .popup-trigger:hover {
+.navbar-menu-desktop li .popup-trigger:hover {
     color: var(--primary-color);
     background-color: rgba(44, 90, 160, 0.05);
 }
 
-.navbar-menu-desktop li a::after,
-.navbar-menu-desktop li .popup-trigger::after,
-.navbar-menu li a::after,
-.navbar-menu li .popup-trigger::after {
+/* Mobile Menu (숨김 처리) */
+.navbar-menu {
     display: none;
 }
 
-/* Responsive Navigation */
+/* ========================================
+   MOBILE LOGIN ITEM (사이드 메뉴용)
+   ======================================== */
+
+.mobile-login-item {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 10px;
+}
+
+.mobile-login-link {
+    background: linear-gradient(135deg, #2c5aa0 0%, #1e4a7a 100%) !important;
+    color: white !important;
+    border-radius: 10px;
+    margin: 0 20px;
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+
 @media screen and (max-width: 768px) {
-    /* 네비게이션 바는 높이만 0으로 */
+    /* Top Bar */
+    .top-bar-container {
+        padding: 6px 15px;
+    }
+    
+    .top-bar-left {
+        display: none;
+    }
+    
+    .top-bar-link {
+        font-size: 0.75rem;
+        padding: 3px 6px;
+    }
+    
+    .top-bar-user-name {
+        font-size: 0.75rem;
+    }
+    
+    .top-bar-admin-badge {
+        font-size: 0.65rem;
+        padding: 2px 4px;
+    }
+
+    /* Navigation Bar */
     .navbar {
         height: 0;
         overflow: visible;
         box-shadow: none;
-        z-index: auto;
     }
 
-    /* 데스크톱 메뉴 숨김 */
     .navbar-menu-desktop {
         display: none;
     }
     
-    /* 헤더의 햄버거 메뉴 버튼 표시 */
+    /* 햄버거 메뉴 버튼 표시 */
     .menu-toggle {
-        display: flex;
+        display: flex !important;
     }
-
-    /* 메뉴 안의 X 버튼 표시 */
+    
+    /* 메뉴 X 버튼 표시 */
     .menu-close {
         display: flex;
     }
-
-    /* 사이드 메뉴 - navbar 밖에 있으므로 자유롭게 z-index 적용 */
+    
+    /* Mobile Menu Activation */
     .navbar-menu {
         display: flex;
         position: fixed;
@@ -213,16 +274,13 @@
         height: 100vh;
         flex-direction: column;
         background-color: var(--white);
-        overflow-y: auto;
-        transition: right 0.3s ease;
-        gap: 0;
         padding: 80px 0 20px;
+        overflow-y: auto;
         box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
-        justify-content: flex-start;
+        transition: right 0.3s ease;
         z-index: 46;
     }
 
-    /* 메뉴가 열렸을 때 */
     .navbar-menu.active {
         right: 0;
     }
@@ -238,19 +296,21 @@
 
     .navbar-menu li a,
     .navbar-menu li .popup-trigger {
+        display: block;
         width: 100%;
-        padding: 18px 30px;
+        padding: 15px 30px;
         text-align: left;
-        font-size: 1.1rem;
+        font-size: 1rem;
         border-radius: 0;
+        transition: background-color 0.2s ease;
     }
 
     .navbar-menu li a:hover,
     .navbar-menu li .popup-trigger:hover {
-        background-color: rgba(44, 90, 160, 0.1);
+        background-color: rgba(44, 90, 160, 0.06);
     }
 
-    /* 오버레이 */
+    /* 메뉴 오버레이 */
     .menu-overlay {
         position: fixed;
         top: 0;
@@ -261,51 +321,11 @@
         z-index: 45;
         opacity: 0;
         visibility: hidden;
-        transition: all 0.3s ease;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
     }
 
     .menu-overlay.active {
         opacity: 1;
         visibility: visible;
-    }
-}
-
-/* ========================================
-   Mobile Login Item (사이드 메뉴용)
-   ======================================== */
-.mobile-login-item {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    margin-bottom: 10px;
-}
-
-.mobile-login-link {
-    background: linear-gradient(135deg, #2c5aa0 0%, #1e4a7a 100%) !important;
-    color: white !important;
-    border-radius: 10px;
-    margin: 0 20px;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .top-bar-container {
-        padding: 6px 15px;
-    }
-    
-    .top-bar-left {
-        display: none; /* 모바일에서는 홈으로 버튼 숨김 */
-    }
-    
-    .top-bar-link {
-        font-size: 0.75rem;
-        padding: 3px 6px;
-    }
-    
-    .top-bar-user-name {
-        display: none; /* 모바일에서는 이름 숨김 */
-    }
-    
-    .top-bar-admin-badge {
-        font-size: 0.65rem;
-        padding: 2px 4px;
     }
 }

@@ -1,99 +1,106 @@
 /* Scroll Animation Styles */
 
-/* 초기 상태 - 투명하고 아래에 위치 */
-.scroll-animate {
+/* 기본적으로 모든 요소 표시 (FOUC 완전 방지) */
+.scroll-animate,
+.scroll-animate-children > *,
+.fade-in {
+    opacity: 1;
+    transform: none;
+}
+
+/* JavaScript가 로드되고 애니메이션이 활성화되면 */
+body.js-loaded .scroll-animate {
     opacity: 0;
     transform: translateY(50px);
     transition: opacity 0.4s ease-out, transform 0.4s ease-out;
 }
 
-/* 화면에 보일 때 - 불투명하고 원래 위치로 */
-.scroll-animate.visible {
+body.js-loaded .scroll-animate.visible {
     opacity: 1;
     transform: translateY(0);
 }
 
 /* 각 섹션별 지연 효과 (순차적으로 나타나게) */
-.scroll-animate:nth-child(1) {
+body.js-loaded .scroll-animate:nth-child(1) {
     transition-delay: 0.1s;
 }
 
-.scroll-animate:nth-child(2) {
+body.js-loaded .scroll-animate:nth-child(2) {
     transition-delay: 0.2s;
 }
 
-.scroll-animate:nth-child(3) {
+body.js-loaded .scroll-animate:nth-child(3) {
     transition-delay: 0.3s;
 }
 
-.scroll-animate:nth-child(4) {
+body.js-loaded .scroll-animate:nth-child(4) {
     transition-delay: 0.4s;
 }
 
-.scroll-animate:nth-child(5) {
+body.js-loaded .scroll-animate:nth-child(5) {
     transition-delay: 0.5s;
 }
 
 /* 카드/그리드 아이템들도 순차적 애니메이션 */
-.scroll-animate-children > * {
+body.js-loaded .scroll-animate-children > * {
     opacity: 0;
     transform: translateY(30px);
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
 }
 
-.scroll-animate-children.visible > *:nth-child(1) {
+body.js-loaded .scroll-animate-children.visible > *:nth-child(1) {
     opacity: 1;
     transform: translateY(0);
     transition-delay: 0.1s;
 }
 
-.scroll-animate-children.visible > *:nth-child(2) {
+body.js-loaded .scroll-animate-children.visible > *:nth-child(2) {
     opacity: 1;
     transform: translateY(0);
     transition-delay: 0.2s;
 }
 
-.scroll-animate-children.visible > *:nth-child(3) {
+body.js-loaded .scroll-animate-children.visible > *:nth-child(3) {
     opacity: 1;
     transform: translateY(0);
     transition-delay: 0.3s;
 }
 
-.scroll-animate-children.visible > *:nth-child(4) {
+body.js-loaded .scroll-animate-children.visible > *:nth-child(4) {
     opacity: 1;
     transform: translateY(0);
     transition-delay: 0.4s;
 }
 
-.scroll-animate-children.visible > *:nth-child(5) {
+body.js-loaded .scroll-animate-children.visible > *:nth-child(5) {
     opacity: 1;
     transform: translateY(0);
     transition-delay: 0.5s;
 }
 
-.scroll-animate-children.visible > *:nth-child(6) {
+body.js-loaded .scroll-animate-children.visible > *:nth-child(6) {
     opacity: 1;
     transform: translateY(0);
     transition-delay: 0.6s;
 }
 
 /* 부드러운 페이드인만 (슬라이드 없이) */
-.fade-in {
+body.js-loaded .fade-in {
     opacity: 0;
     transition: opacity 1s ease-out;
 }
 
-.fade-in.visible {
+body.js-loaded .fade-in.visible {
     opacity: 1;
 }
 
 /* 모바일에서는 애니메이션 거리 줄이기 */
 @media screen and (max-width: 768px) {
-    .scroll-animate {
+    body.js-loaded .scroll-animate {
         transform: translateY(30px);
     }
     
-    .scroll-animate-children > * {
+    body.js-loaded .scroll-animate-children > * {
         transform: translateY(20px);
     }
 }

@@ -49,6 +49,24 @@
     <meta property="twitter:description" content="예슈아 사랑교회 주일학교 소개">
     <meta property="twitter:image" content="https://yeshua-love.org/og-image.png">
     
+    <!-- Critical CSS - FOUC 방지 -->
+    <style>
+        /* 페이지 로드 시 깜빡임 방지 */
+        body {
+            opacity: 1 !important;
+        }
+        
+        /* 탑바 초기 스타일 */
+        .top-bar {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+        }
+        
+        .top-bar-link,
+        .top-bar-login-btn {
+            color: rgba(255, 255, 255, 0.9);
+        }
+    </style>
+    
     <!-- CSS -->
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/style.css">
@@ -56,6 +74,23 @@
     <link rel="stylesheet" href="css/sundayschool.css">
 </head>
 <body>
+    <!-- Top Bar (최상단 유틸리티 바) -->
+    <div class="top-bar">
+        <div class="top-bar-container">
+            <div class="top-bar-left">
+            </div>
+            <div class="top-bar-right">
+                <div class="top-bar-auth" id="topBarAuth">
+                    <a href="index.html" class="top-bar-link">홈</a>
+                    <span class="top-bar-divider">|</span>
+                    <button class="top-bar-login-btn" id="topBarLoginBtn">로그인</button>
+                    <span class="top-bar-divider">|</span>
+                    <a href="login.html?tab=signup" class="top-bar-link">회원가입</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Header -->
     <header class="header">
         <div class="header-shadow"></div>
@@ -213,5 +248,6 @@
     <!-- Scripts -->
     <script src="js/app.js"></script>
     <script src="js/popup.js"></script>
+    <script type="module" src="js/auth-ui.js"></script>
 </body>
 </html>
