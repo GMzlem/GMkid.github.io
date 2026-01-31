@@ -3,14 +3,15 @@
    ======================================== */
 
 :root {
-    --primary-color: #2c5aa0;
-    --primary-dark: #1e4a7a;
+    --primary-color: #2c9aa0;
+    --primary-light: #4a7bc8;
+    --primary-dark: #1a3d6f;
     --sidebar-width: 280px;
     --date-panel-width: 300px;
     --gray-bg: #e5e7eb;
     --white: #ffffff;
-    --text-dark: #1f2937;
-    --text-light: #6b7280;
+    --text-dark: #2c3e50;
+    --text-light: #6c757d;
     --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
     --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
     --shadow-lg: 0 10px 25px rgba(0,0,0,0.15);
@@ -56,6 +57,7 @@ body {
 
 /* Sidebar Header */
 .sidebar-header {
+    text-align: center;
     padding: 30px 20px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
@@ -63,7 +65,8 @@ body {
 .church-name {
     font-size: 1.5rem;
     font-weight: 700;
-    margin-bottom: 10px;
+    color: var(--white);
+    margin-bottom: 0;
 }
 
 .bible-verse {
@@ -73,6 +76,7 @@ body {
 
 /* Sermon Title Section */
 .sermon-title-section {
+    text-align: center;
     padding: 30px 20px;
     background: rgba(255, 255, 255, 0.1);
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
@@ -82,6 +86,7 @@ body {
     font-size: 1.3rem;
     font-weight: 600;
     text-align: center;
+    color: var(--white);
 }
 
 /* Service Menu */
@@ -125,15 +130,20 @@ body {
 /* Back Home Link */
 .back-home {
     padding: 20px;
-    color: var(--white);
+    background: transparent;
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    border-radius: 0;
     text-decoration: none;
     text-align: center;
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
-    transition: background 0.3s ease;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
 }
 
 .back-home:hover {
     background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
 }
 
 /* ========================================
@@ -184,6 +194,7 @@ body {
     font-weight: 300;
     color: var(--text-dark);
     position: relative;
+    background: transparent;
 }
 
 .close-panel::before {
@@ -200,6 +211,186 @@ body {
     padding: 10px;
 }
 
+/* ========================================
+   Bible Selection Panel
+   ======================================== */
+.bible-panel {
+    position: fixed;
+    right: -320px;
+    top: 0;
+    width: var(--date-panel-width);
+    height: 100vh;
+    background: var(--white);
+    box-shadow: -2px 0 15px rgba(0,0,0,0.1);
+    z-index: 300;
+    transition: right 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.bible-panel.active {
+    right: 0;
+}
+
+.bible-panel-header {
+    padding: 25px 20px;
+    border-bottom: 2px solid var(--gray-bg);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.bible-panel-header h3 {
+    font-size: 1.2rem;
+    color: var(--text-dark);
+}
+
+.bible-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+/* When displaying sermons in bible list */
+.bible-list .date-item {
+    padding: 15px 20px;
+    margin-bottom: 10px;
+    background: var(--white);
+    border: 2px solid var(--gray-bg);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.bible-list .date-item:hover {
+    background: #f9fafb;
+    border-color: var(--primary-color);
+    transform: translateX(-5px);
+}
+
+.bible-list .date-item.active {
+    background: var(--primary-color);
+    color: var(--white);
+    border-color: var(--primary-color);
+}
+
+/* Sermon List Container (when viewing sermons by category) */
+.sermon-list-container {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.back-to-books-btn {
+    width: 100%;
+    padding: 12px 15px;
+    background: var(--white);
+    border: 2px solid var(--gray-bg);
+    border-radius: 8px;
+    color: var(--primary-color);
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.back-to-books-btn:hover {
+    background: #f9fafb;
+    border-color: var(--primary-color);
+}
+
+.category-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    padding: 15px 10px;
+    margin-bottom: 10px;
+    border-bottom: 2px solid var(--gray-bg);
+}
+
+.sermon-list-container .date-item {
+    padding: 15px 20px;
+    margin-bottom: 10px;
+    background: var(--white);
+    border: 2px solid var(--gray-bg);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.sermon-list-container .date-item:hover {
+    background: #f9fafb;
+    border-color: var(--primary-color);
+    transform: translateX(-5px);
+}
+
+.sermon-list-container .date-item.active {
+    background: var(--primary-color);
+    color: var(--white);
+    border-color: var(--primary-color);
+}
+
+.testament-btn {
+    width: 100%;
+    padding: 15px 20px;
+    background: var(--white);
+    border: 2px solid var(--gray-bg);
+    border-radius: 8px;
+    color: var(--text-dark);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+.testament-btn:hover {
+    background: #e5e7eb;
+}
+
+.testament-btn.active {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.book-list {
+    background: #f5f5f0;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.book-btn {
+    width: 100%;
+    padding: 12px 15px;
+    background: transparent;
+    border: none;
+    color: var(--text-dark);
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+    border-radius: 6px;
+    margin-bottom: 5px;
+}
+
+.book-btn:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.book-btn:active {
+    background: rgba(0, 0, 0, 0.1);
+}
+
 .date-item {
     padding: 15px 20px;
     margin-bottom: 10px;
@@ -208,6 +399,7 @@ body {
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s ease;
+    position: relative;
 }
 
 .date-item:hover {
@@ -224,6 +416,13 @@ body {
 
 .date-item-date {
     font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.date-item-service {
+    font-size: 0.85rem;
+    color: var(--primary-color);
     font-weight: 600;
     margin-bottom: 5px;
 }
@@ -378,22 +577,21 @@ body {
 .mobile-menu-toggle {
     display: none;
     position: fixed;
-    top: 20px;
-    left: 20px;
-    z-index: 200;
-    width: 50px;
-    height: 50px;
+    top: 1.5rem;
+    left: 1.5rem;
+    z-index: 100;
     background: var(--primary-color);
     border: none;
-    border-radius: 8px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
     cursor: pointer;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    gap: 6px;
-    padding: 12px;
-    box-shadow: var(--shadow-md);
-    transition: background 0.3s ease, transform 0.3s ease;
+    justify-content: center;
+    gap: 5px;
+    box-shadow: var(--shadow-lg);
+    transition: all 0.3s ease;
 }
 
 .mobile-menu-toggle span {
@@ -502,23 +700,41 @@ body {
         width: 100%;
         right: -100%;
     }
+
+    .bible-panel {
+        width: 100%;
+        right: -100%;
+    }
 }
 
 /* Scrollbar Styles */
 .service-menu::-webkit-scrollbar,
 .date-list::-webkit-scrollbar,
+.bible-list::-webkit-scrollbar,
+.sermon-list-container::-webkit-scrollbar,
 .main-content::-webkit-scrollbar {
     width: 6px;
 }
 
-.service-menu::-webkit-scrollbar-track,
-.date-list::-webkit-scrollbar-track {
+.service-menu::-webkit-scrollbar-track {
     background: rgba(255, 255, 255, 0.1);
 }
 
-.service-menu::-webkit-scrollbar-thumb,
-.date-list::-webkit-scrollbar-thumb {
+.service-menu::-webkit-scrollbar-thumb {
     background: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+}
+
+.date-list::-webkit-scrollbar-track,
+.bible-list::-webkit-scrollbar-track,
+.sermon-list-container::-webkit-scrollbar-track {
+    background: #f3f4f6;
+}
+
+.date-list::-webkit-scrollbar-thumb,
+.bible-list::-webkit-scrollbar-thumb,
+.sermon-list-container::-webkit-scrollbar-thumb {
+    background: #d1d5db;
     border-radius: 3px;
 }
 
@@ -530,25 +746,23 @@ body {
     background: #cbd5e0;
     border-radius: 3px;
 }
+
 /* ========================================
    Auth Section Styles
    ======================================== */
 .auth-section {
-    padding: 20px;
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    margin-top: auto;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 0;
+    padding: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .auth-btn,
 .admin-btn {
-    width: 100%;
-    padding: 12px 20px;
-    background: rgba(255, 255, 255, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 8px;
-    color: var(--white);
+    padding: 20px;
+    border-radius: 0;
     font-size: 0.95rem;
     font-weight: 500;
     cursor: pointer;
@@ -556,21 +770,29 @@ body {
     text-align: center;
     text-decoration: none;
     display: block;
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.auth-btn:hover,
-.admin-btn:hover {
-    background: rgba(255, 255, 255, 0.3);
-    transform: translateY(-2px);
+.auth-btn {
+    background: transparent;
+    color: var(--white);
+}
+
+.auth-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: none;
+    box-shadow: none;
 }
 
 .admin-btn {
-    background: rgba(255, 215, 0, 0.3);
-    border-color: rgba(255, 215, 0, 0.5);
+    background: transparent;
+    color: white;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .admin-btn:hover {
-    background: rgba(255, 215, 0, 0.4);
+    background: rgba(255, 255, 255, 0.1);
 }
 
 /* ========================================
@@ -597,10 +819,396 @@ body {
     transform: translateY(-50%) scale(1.05);
 }
 
-.date-item {
+.date-item:has(.delete-sermon-btn) .date-item-title {
+    padding-right: 80px;
+}
+
+/* ========================================
+   Edit Modal Styles
+   ======================================== */
+.edit-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 2000;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.edit-modal.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.edit-modal-content {
+    background: white;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 700px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.edit-modal-header {
+    padding: 24px 30px;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.edit-modal-header h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.close-modal {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: #9ca3af;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s;
+}
+
+.close-modal:hover {
+    background: #f3f4f6;
+    color: var(--text-dark);
+}
+
+.edit-modal-body {
+    padding: 30px;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.form-group {
+    margin-bottom: 24px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text-dark);
+    font-size: 0.95rem;
+}
+
+.form-group input[type="text"],
+.form-group select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.2s;
+    font-family: inherit;
+}
+
+.form-group input[type="text"]:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(44, 154, 160, 0.1);
+}
+
+.page-editor {
+    margin-bottom: 16px;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 16px;
     position: relative;
 }
 
-.date-item:has(.delete-sermon-btn) .date-item-title {
-    padding-right: 80px;
+.page-editor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.page-number {
+    font-weight: 600;
+    color: var(--primary-color);
+    font-size: 0.95rem;
+}
+
+.remove-page-btn {
+    background: #ef4444;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.remove-page-btn:hover {
+    background: #dc2626;
+    transform: translateY(-1px);
+}
+
+.page-editor textarea {
+    width: 100%;
+    min-height: 150px;
+    padding: 12px;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    resize: vertical;
+    transition: all 0.2s;
+}
+
+.page-editor textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(44, 154, 160, 0.1);
+}
+
+/* Quill Editor Styles */
+.quill-editor {
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    background: white;
+}
+
+.quill-editor .ql-toolbar {
+    border: none;
+    border-bottom: 1px solid #e5e7eb;
+    border-radius: 6px 6px 0 0;
+    background: #f9fafb;
+    padding: 8px;
+}
+
+.quill-editor .ql-container {
+    border: none;
+    font-size: 1rem;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif;
+    min-height: 200px;
+}
+
+.quill-editor .ql-editor {
+    min-height: 200px;
+    padding: 15px;
+    line-height: 1.8;
+}
+
+.quill-editor .ql-editor.ql-blank::before {
+    color: #9ca3af;
+    font-style: normal;
+}
+
+.quill-editor .ql-editor p {
+    margin-bottom: 10px;
+}
+
+.quill-editor .ql-editor h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-top: 20px;
+    margin-bottom: 12px;
+    color: var(--text-dark);
+}
+
+.quill-editor .ql-editor h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-top: 18px;
+    margin-bottom: 10px;
+    color: var(--text-dark);
+}
+
+.quill-editor .ql-editor h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-top: 15px;
+    margin-bottom: 8px;
+    color: var(--primary-color);
+}
+
+.quill-editor:focus-within {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(44, 154, 160, 0.1);
+}
+
+.add-page-btn {
+    width: 100%;
+    padding: 12px;
+    background: #f3f4f6;
+    border: 2px dashed #d1d5db;
+    border-radius: 8px;
+    color: var(--text-dark);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.95rem;
+}
+
+.add-page-btn:hover {
+    background: #e5e7eb;
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.edit-modal-footer {
+    padding: 20px 30px;
+    border-top: 1px solid #e5e7eb;
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+}
+
+.cancel-btn,
+.save-btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1rem;
+}
+
+.cancel-btn {
+    background: #f3f4f6;
+    color: var(--text-dark);
+}
+
+.cancel-btn:hover {
+    background: #e5e7eb;
+}
+
+.save-btn {
+    background: var(--primary-color);
+    color: white;
+}
+
+.save-btn:hover {
+    background: var(--primary-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(44, 154, 160, 0.3);
+}
+
+/* Edit button in date list */
+.edit-sermon-btn {
+    position: absolute;
+    right: 85px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+    z-index: 10;
+}
+
+.edit-sermon-btn:hover {
+    background: var(--primary-dark);
+    transform: translateY(-50%) scale(1.05);
+}
+
+.date-item:has(.edit-sermon-btn) .date-item-title {
+    padding-right: 160px;
+}
+
+/* Mobile Responsive for Edit Modal */
+@media (max-width: 768px) {
+    .edit-modal {
+        padding: 10px;
+    }
+
+    .edit-modal-content {
+        max-width: 100%;
+    }
+
+    .edit-modal-header {
+        padding: 20px;
+    }
+
+    .edit-modal-body {
+        padding: 20px;
+        max-height: 70vh;
+    }
+
+    .edit-modal-footer {
+        padding: 16px 20px;
+        flex-direction: column;
+    }
+
+    .cancel-btn,
+    .save-btn {
+        width: 100%;
+    }
+
+    .edit-sermon-btn {
+        right: 10px;
+        padding: 6px 10px;
+        font-size: 0.8rem;
+    }
+
+    .delete-sermon-btn {
+        right: 10px;
+        padding: 6px 10px;
+        font-size: 0.8rem;
+        top: calc(50% + 28px);
+    }
+
+    .date-item:has(.edit-sermon-btn) .date-item-title {
+        padding-right: 10px;
+        padding-bottom: 35px;
+    }
+
+    .date-item:has(.delete-sermon-btn) .date-item-title {
+        padding-right: 10px;
+    }
+
+    /* Quill Editor Mobile */
+    .quill-editor .ql-toolbar {
+        padding: 6px;
+    }
+
+    .quill-editor .ql-toolbar button {
+        width: 24px;
+        height: 24px;
+    }
+
+    .quill-editor .ql-container {
+        font-size: 0.95rem;
+    }
+
+    .quill-editor .ql-editor {
+        min-height: 150px;
+        padding: 12px;
+    }
 }

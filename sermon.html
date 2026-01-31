@@ -52,6 +52,10 @@
     <!-- CSS -->
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/sermon.css">
+    
+    <!-- Quill Editor -->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 </head>
 <body>
     <!-- Mobile Menu Button -->
@@ -100,6 +104,9 @@
                 <button class="service-btn" data-service="sunday-school">
                     <span>주일학교</span>
                 </button>
+                <button class="service-btn bible-view-btn" id="bibleViewBtn">
+                    <span>전권 보기</span>
+                </button>
             </nav>
 
             <!-- Auth Section -->
@@ -122,6 +129,95 @@
             </div>
             <div class="date-list" id="dateList">
                 <!-- Dates will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Bible Selection Panel (slides in from right) -->
+        <div class="bible-panel" id="biblePanel">
+            <div class="bible-panel-header">
+                <h3>성경 전권</h3>
+                <button class="close-panel" id="closeBiblePanel"></button>
+            </div>
+            <div class="bible-list" id="bibleList">
+                <!-- Old Testament -->
+                <button class="testament-btn" id="oldTestamentBtn">
+                    구약
+                </button>
+                <div class="book-list" id="oldTestamentBooks" style="display: none;">
+                    <button class="book-btn" data-book="창세기">창세기</button>
+                    <button class="book-btn" data-book="출애굽기">출애굽기</button>
+                    <button class="book-btn" data-book="레위기">레위기</button>
+                    <button class="book-btn" data-book="민수기">민수기</button>
+                    <button class="book-btn" data-book="신명기">신명기</button>
+                    <button class="book-btn" data-book="여호수아">여호수아</button>
+                    <button class="book-btn" data-book="사사기">사사기</button>
+                    <button class="book-btn" data-book="룻기">룻기</button>
+                    <button class="book-btn" data-book="사무엘상">사무엘상</button>
+                    <button class="book-btn" data-book="사무엘하">사무엘하</button>
+                    <button class="book-btn" data-book="열왕기상">열왕기상</button>
+                    <button class="book-btn" data-book="열왕기하">열왕기하</button>
+                    <button class="book-btn" data-book="역대상">역대상</button>
+                    <button class="book-btn" data-book="역대하">역대하</button>
+                    <button class="book-btn" data-book="에스라">에스라</button>
+                    <button class="book-btn" data-book="느헤미야">느헤미야</button>
+                    <button class="book-btn" data-book="에스더">에스더</button>
+                    <button class="book-btn" data-book="욥기">욥기</button>
+                    <button class="book-btn" data-book="시편">시편</button>
+                    <button class="book-btn" data-book="잠언">잠언</button>
+                    <button class="book-btn" data-book="전도서">전도서</button>
+                    <button class="book-btn" data-book="아가">아가</button>
+                    <button class="book-btn" data-book="이사야">이사야</button>
+                    <button class="book-btn" data-book="예레미야">예레미야</button>
+                    <button class="book-btn" data-book="예레미야애가">예레미야애가</button>
+                    <button class="book-btn" data-book="에스겔">에스겔</button>
+                    <button class="book-btn" data-book="다니엘">다니엘</button>
+                    <button class="book-btn" data-book="호세아">호세아</button>
+                    <button class="book-btn" data-book="요엘">요엘</button>
+                    <button class="book-btn" data-book="아모스">아모스</button>
+                    <button class="book-btn" data-book="오바댜">오바댜</button>
+                    <button class="book-btn" data-book="요나">요나</button>
+                    <button class="book-btn" data-book="미가">미가</button>
+                    <button class="book-btn" data-book="나훔">나훔</button>
+                    <button class="book-btn" data-book="하박국">하박국</button>
+                    <button class="book-btn" data-book="스바냐">스바냐</button>
+                    <button class="book-btn" data-book="학개">학개</button>
+                    <button class="book-btn" data-book="스가랴">스가랴</button>
+                    <button class="book-btn" data-book="말라기">말라기</button>
+                </div>
+
+                <!-- New Testament -->
+                <button class="testament-btn" id="newTestamentBtn">
+                    신약
+                </button>
+                <div class="book-list" id="newTestamentBooks" style="display: none;">
+                    <button class="book-btn" data-book="마태복음">마태복음</button>
+                    <button class="book-btn" data-book="마가복음">마가복음</button>
+                    <button class="book-btn" data-book="누가복음">누가복음</button>
+                    <button class="book-btn" data-book="요한복음">요한복음</button>
+                    <button class="book-btn" data-book="사도행전">사도행전</button>
+                    <button class="book-btn" data-book="로마서">로마서</button>
+                    <button class="book-btn" data-book="고린도전서">고린도전서</button>
+                    <button class="book-btn" data-book="고린도후서">고린도후서</button>
+                    <button class="book-btn" data-book="갈라디아서">갈라디아서</button>
+                    <button class="book-btn" data-book="에베소서">에베소서</button>
+                    <button class="book-btn" data-book="빌립보서">빌립보서</button>
+                    <button class="book-btn" data-book="골로새서">골로새서</button>
+                    <button class="book-btn" data-book="데살로니가전서">데살로니가전서</button>
+                    <button class="book-btn" data-book="데살로니가후서">데살로니가후서</button>
+                    <button class="book-btn" data-book="디모데전서">디모데전서</button>
+                    <button class="book-btn" data-book="디모데후서">디모데후서</button>
+                    <button class="book-btn" data-book="디도서">디도서</button>
+                    <button class="book-btn" data-book="빌레몬서">빌레몬서</button>
+                    <button class="book-btn" data-book="히브리서">히브리서</button>
+                    <button class="book-btn" data-book="야고보서">야고보서</button>
+                    <button class="book-btn" data-book="베드로전서">베드로전서</button>
+                    <button class="book-btn" data-book="베드로후서">베드로후서</button>
+                    <button class="book-btn" data-book="요한1서">요한1서</button>
+                    <button class="book-btn" data-book="요한2서">요한2서</button>
+                    <button class="book-btn" data-book="요한3서">요한3서</button>
+                    <button class="book-btn" data-book="유다서">유다서</button>
+                    <button class="book-btn" data-book="요한계시록">요한계시록</button>
+                </div>
             </div>
         </div>
 
@@ -160,6 +256,123 @@
 
         <!-- Overlay for date panel -->
         <div class="panel-overlay" id="panelOverlay"></div>
+    </div>
+
+    <!-- Edit Sermon Modal -->
+    <div class="edit-modal" id="editModal">
+        <div class="edit-modal-content">
+            <div class="edit-modal-header">
+                <h2>설교 수정</h2>
+                <button class="close-modal" id="closeEditModal">&times;</button>
+            </div>
+            <div class="edit-modal-body">
+                <div class="form-group">
+                    <label for="editDate">날짜</label>
+                    <input type="text" id="editDate" placeholder="예: 2025-01-31">
+                </div>
+                <div class="form-group">
+                    <label for="editService">예배</label>
+                    <select id="editService">
+                        <option value="sunday-morning">주일오전예배</option>
+                        <option value="sunday-afternoon">주일오후예배</option>
+                        <option value="wednesday">수요예배</option>
+                        <option value="friday">금요예배</option>
+                        <option value="sunday-school">주일학교</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="editTitle">제목</label>
+                    <input type="text" id="editTitle" placeholder="설교 제목">
+                </div>
+                <div class="form-group">
+                    <label for="editCategory">분류</label>
+                    <select id="editCategory">
+                        <option value="">선택 안 함</option>
+                        <optgroup label="구약">
+                            <option value="창세기">창세기</option>
+                            <option value="출애굽기">출애굽기</option>
+                            <option value="레위기">레위기</option>
+                            <option value="민수기">민수기</option>
+                            <option value="신명기">신명기</option>
+                            <option value="여호수아">여호수아</option>
+                            <option value="사사기">사사기</option>
+                            <option value="룻기">룻기</option>
+                            <option value="사무엘상">사무엘상</option>
+                            <option value="사무엘하">사무엘하</option>
+                            <option value="열왕기상">열왕기상</option>
+                            <option value="열왕기하">열왕기하</option>
+                            <option value="역대상">역대상</option>
+                            <option value="역대하">역대하</option>
+                            <option value="에스라">에스라</option>
+                            <option value="느헤미야">느헤미야</option>
+                            <option value="에스더">에스더</option>
+                            <option value="욥기">욥기</option>
+                            <option value="시편">시편</option>
+                            <option value="잠언">잠언</option>
+                            <option value="전도서">전도서</option>
+                            <option value="아가">아가</option>
+                            <option value="이사야">이사야</option>
+                            <option value="예레미야">예레미야</option>
+                            <option value="예레미야애가">예레미야애가</option>
+                            <option value="에스겔">에스겔</option>
+                            <option value="다니엘">다니엘</option>
+                            <option value="호세아">호세아</option>
+                            <option value="요엘">요엘</option>
+                            <option value="아모스">아모스</option>
+                            <option value="오바댜">오바댜</option>
+                            <option value="요나">요나</option>
+                            <option value="미가">미가</option>
+                            <option value="나훔">나훔</option>
+                            <option value="하박국">하박국</option>
+                            <option value="스바냐">스바냐</option>
+                            <option value="학개">학개</option>
+                            <option value="스가랴">스가랴</option>
+                            <option value="말라기">말라기</option>
+                        </optgroup>
+                        <optgroup label="신약">
+                            <option value="마태복음">마태복음</option>
+                            <option value="마가복음">마가복음</option>
+                            <option value="누가복음">누가복음</option>
+                            <option value="요한복음">요한복음</option>
+                            <option value="사도행전">사도행전</option>
+                            <option value="로마서">로마서</option>
+                            <option value="고린도전서">고린도전서</option>
+                            <option value="고린도후서">고린도후서</option>
+                            <option value="갈라디아서">갈라디아서</option>
+                            <option value="에베소서">에베소서</option>
+                            <option value="빌립보서">빌립보서</option>
+                            <option value="골로새서">골로새서</option>
+                            <option value="데살로니가전서">데살로니가전서</option>
+                            <option value="데살로니가후서">데살로니가후서</option>
+                            <option value="디모데전서">디모데전서</option>
+                            <option value="디모데후서">디모데후서</option>
+                            <option value="디도서">디도서</option>
+                            <option value="빌레몬서">빌레몬서</option>
+                            <option value="히브리서">히브리서</option>
+                            <option value="야고보서">야고보서</option>
+                            <option value="베드로전서">베드로전서</option>
+                            <option value="베드로후서">베드로후서</option>
+                            <option value="요한1서">요한1서</option>
+                            <option value="요한2서">요한2서</option>
+                            <option value="요한3서">요한3서</option>
+                            <option value="유다서">유다서</option>
+                            <option value="요한계시록">요한계시록</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>페이지</label>
+                    <div id="editPagesContainer">
+                        <!-- Pages will be added here dynamically -->
+                    </div>
+                    <button type="button" class="add-page-btn" id="addPageBtn">+ 페이지 추가</button>
+                </div>
+            </div>
+            <div class="edit-modal-footer">
+                <button class="cancel-btn" id="cancelEditBtn">취소</button>
+                <button class="save-btn" id="saveEditBtn">저장</button>
+            </div>
+        </div>
     </div>
 
     <!-- JavaScript -->
