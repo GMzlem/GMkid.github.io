@@ -1,0 +1,14 @@
+{
+  "hosting": {
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      "generate-sermons.js",
+      "*.log",
+      "firebase-debug.log",
+      "firebase-debug.*.log",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}

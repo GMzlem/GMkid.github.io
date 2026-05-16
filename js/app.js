@@ -93,9 +93,10 @@
         const menuClose = document.getElementById('menuClose');
         const navbarMenu = document.getElementById('navbarMenu');
         const menuOverlay = document.getElementById('menuOverlay');
-        const menuLinks = navbarMenu.querySelectorAll('a');
 
         if (!menuToggle || !menuClose || !navbarMenu || !menuOverlay) return;
+
+        const menuLinks = navbarMenu.querySelectorAll('a');
 
         // Toggle menu on hamburger click
         menuToggle.addEventListener('click', function(e) {
