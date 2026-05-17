@@ -1212,3 +1212,25 @@ body {
         padding: 12px;
     }
 }
+
+/* ========================================
+   View Count Styles
+   ======================================== */
+.view-count {
+    display: inline-block;
+    font-size: 0.85em;
+    color: #888;
+    margin-left: 8px;
+    opacity: 0.8;
+    font-weight: normal;
+}
+
+.date-item:hover .view-count {
+    opacity: 1;
+    color: #666;
+}
+
+.content-meta .view-count {
+    color: #999;
+    font-size: 0.9em;
+}

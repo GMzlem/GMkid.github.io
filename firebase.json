@@ -3,6 +3,7 @@
     "public": ".",
     "ignore": [
       "firebase.json",
+      "firestore.rules",
       "generate-sermons.js",
       "*.log",
       "firebase-debug.log",
@@ -10,5 +11,8 @@
       "**/.*",
       "**/node_modules/**"
     ]
+  },
+  "firestore": {
+    "rules": "firestore.rules"
   }
 }

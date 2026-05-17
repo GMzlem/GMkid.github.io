@@ -37,13 +37,11 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="date">날짜 (YYYY.MM.DD)</label>
+                    <label for="date">날짜</label>
                     <input 
-                        type="text" 
+                        type="date" 
                         id="date" 
                         required 
-                        placeholder="2026.01.19"
-                        pattern="\d{4}\.\d{2}\.\d{2}"
                     >
                 </div>
 
@@ -149,17 +147,31 @@
                     </button>
                 </div>
 
+                <div class="draft-controls" aria-label="임시저장">
+                    <button type="button" class="draft-btn draft-save-btn" id="saveDraftBtn">
+                        임시저장
+                    </button>
+                    <button type="button" class="draft-btn draft-load-btn" id="loadDraftBtn">
+                        임시저장 불러오기
+                    </button>
+                    <button type="button" class="draft-btn draft-delete-btn" id="deleteDraftBtn">
+                        임시저장 삭제
+                    </button>
+                </div>
+                <p class="draft-status" id="draftStatus" aria-live="polite"></p>
+
                 <button type="submit" class="submit-btn" id="submitBtn">
                     설교 추가
                 </button>
             </form>
 
-            <a href="sermon.html" class="back-link">← 설교 페이지로 돌아가기</a>
+            <a href="sermon.html" class="back-link">설교 페이지로 돌아가기</a>
         </div>
     </div>
 
     <!-- Quill JS -->
     <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <script src="js/sanitize-html.js"></script>
 
     <script type="module">
         import { db } from './js/firebase-config.js';
@@ -167,6 +179,10 @@
         import { 
             collection, 
             addDoc,
+            doc,
+            getDoc,
+            setDoc,
+            deleteDoc,
             serverTimestamp
         } from 'https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js';
 
@@ -175,6 +191,10 @@
         const sermonForm = document.getElementById('sermonForm');
         const pagesContainer = document.getElementById('pagesContainer');
         const addPageBtn = document.getElementById('addPageBtn');
+        const saveDraftBtn = document.getElementById('saveDraftBtn');
+        const loadDraftBtn = document.getElementById('loadDraftBtn');
+        const deleteDraftBtn = document.getElementById('deleteDraftBtn');
+        const draftStatus = document.getElementById('draftStatus');
         const submitBtn = document.getElementById('submitBtn');
         const logoutBtn = document.getElementById('logoutBtn');
         const successMessage = document.getElementById('successMessage');
@@ -182,6 +202,8 @@
 
         let pageCount = 1;
         let editors = {};
+        let currentUser = null;
+        const sanitizeSermonHtml = window.SermonSanitizer?.sanitizeSermonHtml || ((value) => String(value || ''));
 
         // Quill toolbar options
         const toolbarOptions = [
@@ -217,10 +239,13 @@
             loading.style.display = 'none';
             
             if (!user || !isAdmin) {
+                currentUser = null;
                 alert('관리자 권한이 필요합니다.');
-                window.location.href = 'login.html';
+                window.location.href = 'login.html?redirect=admin.html';
             } else {
+                currentUser = user;
                 adminContent.classList.add('active');
+                checkDraftOnLoad();
             }
         });
 
@@ -234,6 +259,10 @@
 
         // Add page
         addPageBtn.addEventListener('click', () => {
+            addEditorPage();
+        });
+
+        function addEditorPage(content = '') {
             const editorId = `editor-${pageCount}`;
             const pageSection = document.createElement('div');
             pageSection.className = 'page-section';
@@ -244,48 +273,202 @@
                     <div id="${editorId}" class="quill-editor"></div>
                 </div>
                 <div class="page-controls">
-                    <button type="button" class="remove-page-btn" onclick="this.closest('.page-section').remove()">
+                    <button type="button" class="remove-page-btn">
                         × 페이지 삭제
                     </button>
                 </div>
             `;
+            pageSection.querySelector('.remove-page-btn').addEventListener('click', () => {
+                pageSection.remove();
+                updatePageHeadings();
+            });
             pagesContainer.appendChild(pageSection);
-            
-            // Initialize new editor
-            initializeEditor(editorId, '계속해서 내용을 입력하세요...');
-            
+
+            const editor = initializeEditor(editorId, '계속해서 내용을 입력하세요...');
+            if (content) {
+                editor.root.innerHTML = sanitizeSermonHtml(content);
+            }
+
             pageCount++;
-        });
+        }
+
+        function updatePageHeadings() {
+            pagesContainer.querySelectorAll('.page-section').forEach((section, index) => {
+                const heading = section.querySelector('h3');
+                if (heading) {
+                    heading.textContent = `페이지 ${index + 1}`;
+                }
+            });
+        }
+
+        function hasTextContent(html) {
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = html;
+            return tempDiv.textContent.trim().length > 0;
+        }
+
+        function getEditorContents({ includeEmpty = false } = {}) {
+            const pageContents = [];
+            const pageSections = document.querySelectorAll('.page-section');
+
+            pageSections.forEach((section) => {
+                const editorId = `editor-${section.getAttribute('data-page')}`;
+                const editor = editors[editorId];
+
+                if (editor) {
+                    const html = sanitizeSermonHtml(editor.root.innerHTML);
+                    if (includeEmpty || hasTextContent(html)) {
+                        pageContents.push(html);
+                    }
+                }
+            });
+
+            return pageContents;
+        }
+
+        function toFirestoreDate(value) {
+            return value.replaceAll('-', '.');
+        }
+
+        function toDateInputValue(value) {
+            return value ? value.replaceAll('.', '-') : '';
+        }
+
+        function getDraftRef() {
+            if (!currentUser) {
+                throw new Error('관리자 로그인 정보가 없습니다.');
+            }
+            return doc(db, 'sermonDrafts', currentUser.uid);
+        }
+
+        function buildDraftPayload() {
+            return {
+                service: document.getElementById('service').value,
+                date: toFirestoreDate(document.getElementById('date').value),
+                title: document.getElementById('title').value.trim(),
+                category: document.getElementById('category').value,
+                content: getEditorContents({ includeEmpty: true }),
+                updatedAt: serverTimestamp()
+            };
+        }
+
+        function restoreDraft(data) {
+            document.getElementById('service').value = data.service || 'sunday-morning';
+            document.getElementById('date').value = toDateInputValue(data.date || '');
+            document.getElementById('title').value = data.title || '';
+            document.getElementById('category').value = data.category || 'main';
+            resetEditors(Array.isArray(data.content) && data.content.length > 0 ? data.content : ['']);
+            setDraftStatus('임시저장을 불러왔습니다.');
+        }
+
+        function resetEditors(contents = ['']) {
+            pagesContainer.innerHTML = `
+                <div class="page-section" data-page="0">
+                    <h3>페이지 1</h3>
+                    <div class="editor-container">
+                        <div id="editor-0" class="quill-editor"></div>
+                    </div>
+                </div>
+            `;
+            pageCount = 1;
+            editors = {};
+
+            const firstEditor = initializeEditor('editor-0');
+            if (contents[0]) {
+                firstEditor.root.innerHTML = sanitizeSermonHtml(contents[0]);
+            }
+
+            contents.slice(1).forEach((content) => addEditorPage(content));
+            updatePageHeadings();
+        }
+
+        function setDraftStatus(message) {
+            draftStatus.textContent = message;
+        }
+
+        async function saveDraft() {
+            hideMessages();
+            saveDraftBtn.disabled = true;
+            saveDraftBtn.textContent = '저장 중...';
+
+            try {
+                await setDoc(getDraftRef(), buildDraftPayload(), { merge: true });
+                setDraftStatus('임시저장되었습니다.');
+            } catch (error) {
+                console.error('Error saving draft:', error);
+                showError('임시저장 중 오류가 발생했습니다: ' + error.message);
+            } finally {
+                saveDraftBtn.disabled = false;
+                saveDraftBtn.textContent = '임시저장';
+            }
+        }
+
+        async function loadDraft({ askIfExists = false } = {}) {
+            hideMessages();
+            loadDraftBtn.disabled = true;
+
+            try {
+                const snapshot = await getDoc(getDraftRef());
+                if (!snapshot.exists()) {
+                    setDraftStatus('저장된 임시저장이 없습니다.');
+                    return;
+                }
+
+                if (askIfExists && !confirm('작성 중인 임시저장이 있습니다. 불러올까요?')) {
+                    setDraftStatus('저장된 임시저장이 있습니다.');
+                    return;
+                }
+
+                restoreDraft(snapshot.data());
+            } catch (error) {
+                console.error('Error loading draft:', error);
+                showError('임시저장 불러오기 중 오류가 발생했습니다: ' + error.message);
+            } finally {
+                loadDraftBtn.disabled = false;
+            }
+        }
+
+        async function deleteDraft({ silent = false } = {}) {
+            if (!silent && !confirm('임시저장을 삭제할까요?')) {
+                return;
+            }
+
+            deleteDraftBtn.disabled = true;
+
+            try {
+                await deleteDoc(getDraftRef());
+                if (!silent) {
+                    setDraftStatus('임시저장이 삭제되었습니다.');
+                }
+            } catch (error) {
+                if (!silent) {
+                    console.error('Error deleting draft:', error);
+                    showError('임시저장 삭제 중 오류가 발생했습니다: ' + error.message);
+                } else {
+                    console.warn('Draft cleanup failed:', error);
+                }
+            } finally {
+                deleteDraftBtn.disabled = false;
+            }
+        }
+
+        function checkDraftOnLoad() {
+            loadDraft({ askIfExists: true });
+        }
+
+        saveDraftBtn.addEventListener('click', saveDraft);
+        loadDraftBtn.addEventListener('click', () => loadDraft());
+        deleteDraftBtn.addEventListener('click', () => deleteDraft());
 
         // Submit form
         sermonForm.addEventListener('submit', async (e) => {
             e.preventDefault();
 
             const service = document.getElementById('service').value;
-            const date = document.getElementById('date').value;
+            const date = toFirestoreDate(document.getElementById('date').value);
             const title = document.getElementById('title').value;
             const category = document.getElementById('category').value;
-            
-            // Get all editor contents
-            const pageContents = [];
-            const pageSections = document.querySelectorAll('.page-section');
-            
-            pageSections.forEach((section, index) => {
-                const editorId = `editor-${section.getAttribute('data-page')}`;
-                const editor = editors[editorId];
-                
-                if (editor) {
-                    const html = editor.root.innerHTML;
-                    // Check if editor has content (not just empty <p><br></p>)
-                    const tempDiv = document.createElement('div');
-                    tempDiv.innerHTML = html;
-                    const textContent = tempDiv.textContent.trim();
-                    
-                    if (textContent) {
-                        pageContents.push(html);
-                    }
-                }
-            });
+            const pageContents = getEditorContents();
 
             if (pageContents.length === 0) {
                 showError('최소 하나의 페이지 내용을 입력해주세요.');
@@ -309,27 +492,12 @@
                 });
 
                 showSuccess('설교가 성공적으로 추가되었습니다!');
+                await deleteDraft({ silent: true });
                 
                 // Reset form
                 sermonForm.reset();
-                
-                // Reset editors
-                Object.values(editors).forEach(editor => {
-                    editor.setContents([]);
-                });
-                
-                // Reset pages
-                pagesContainer.innerHTML = `
-                    <div class="page-section" data-page="0">
-                        <h3>페이지 1</h3>
-                        <div class="editor-container">
-                            <div id="editor-0" class="quill-editor"></div>
-                        </div>
-                    </div>
-                `;
-                pageCount = 1;
-                editors = {};
-                initializeEditor('editor-0');
+                resetEditors();
+                setDraftStatus('');
 
             } catch (error) {
                 console.error('Error adding sermon:', error);
@@ -356,6 +524,8 @@
         function hideMessages() {
             successMessage.style.display = 'none';
             errorMessage.style.display = 'none';
+            successMessage.textContent = '';
+            errorMessage.textContent = '';
         }
     </script>
 </body>

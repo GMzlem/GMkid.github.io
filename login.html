@@ -139,7 +139,7 @@
     </div>
 
     <script type="module">
-        import { login, signup } from './js/auth.js';
+        import { login, signup, loginWithGoogle, completeGoogleRedirectLogin, onUserChange } from './js/auth.js?v=20260517-redirect2';
 
         // DOM Elements
         const tabs = document.querySelectorAll('.auth-tab');
@@ -151,6 +151,21 @@
         // Check URL parameter for tab
         const urlParams = new URLSearchParams(window.location.search);
         const tabParam = urlParams.get('tab');
+        const redirectTarget = getRedirectTarget();
+
+        completeGoogleRedirectLogin().then((result) => {
+            if (result.success) {
+                goAfterLogin('Google 로그인 성공! 이동합니다...');
+            } else if (!result.noResult) {
+                showError(result.error);
+            }
+        });
+
+        onUserChange((user) => {
+            if (user) {
+                goAfterLogin('로그인 상태가 확인되었습니다. 이동합니다...');
+            }
+        });
         
         if (tabParam === 'signup') {
             // Switch to signup tab
@@ -205,10 +220,7 @@
             const result = await login(email, password);
 
             if (result.success) {
-                showSuccess('로그인 성공! 메인 페이지로 이동합니다...');
-                setTimeout(() => {
-                    window.location.href = 'index.html';
-                }, 1000);
+                goAfterLogin('로그인 성공! 이동합니다...');
             } else {
                 showError('로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.');
                 loginBtn.disabled = false;
@@ -286,13 +298,33 @@
             successMessage.style.display = 'none';
         }
 
+        function getRedirectTarget() {
+            const redirect = urlParams.get('redirect');
+            const allowedRedirects = new Set([
+                'index.html',
+                'admin.html',
+                'sermon.html',
+                'sundayschool.html'
+            ]);
+            return allowedRedirects.has(redirect) ? redirect : 'index.html';
+        }
+
+        function goAfterLogin(message) {
+            if (window.isNavigatingAfterLogin) {
+                return;
+            }
+            window.isNavigatingAfterLogin = true;
+            showSuccess(message);
+            setTimeout(() => {
+                window.location.href = redirectTarget;
+            }, 1000);
+        }
+
         // Google Login Buttons
         const googleLoginBtn = document.getElementById('googleLoginBtn');
         const googleSignupBtn = document.getElementById('googleSignupBtn');
 
         async function handleGoogleLogin() {
-            const { loginWithGoogle } = await import('./js/auth.js');
-            
             hideMessages();
             
             // Disable buttons
@@ -303,11 +335,12 @@
 
             const result = await loginWithGoogle();
 
+            if (result.redirecting) {
+                return;
+            }
+
             if (result.success) {
-                showSuccess('Google 로그인 성공! 메인 페이지로 이동합니다...');
-                setTimeout(() => {
-                    window.location.href = 'index.html';
-                }, 1000);
+                goAfterLogin('Google 로그인 성공! 이동합니다...');
             } else {
                 showError(result.error);
                 

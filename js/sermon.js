@@ -17,6 +17,17 @@ import {
 (function() {
     'use strict';
 
+    const sanitizeSermonHtml = window.SermonSanitizer?.sanitizeSermonHtml || ((value) => String(value || ''));
+
+    function escapeHtml(value) {
+        return String(value || '')
+            .replaceAll('&', '&amp;')
+            .replaceAll('<', '&lt;')
+            .replaceAll('>', '&gt;')
+            .replaceAll('"', '&quot;')
+            .replaceAll("'", '&#39;');
+    }
+
     // DOM Elements
     const serviceButtons = document.querySelectorAll('.service-btn');
     const bibleViewBtn = document.getElementById('bibleViewBtn');
@@ -126,9 +137,10 @@ import {
                         id: docSnap.id,
                         date: data.date,
                         title: data.title,
-                        content: data.content || [],
+                        content: Array.isArray(data.content) ? data.content.map(sanitizeSermonHtml) : [],
                         service: data.service,
-                        category: data.category || ''
+                        category: data.category || '',
+                        viewCount: data.viewCount || 0
                     });
                 } else {
                     console.warn('알 수 없는 서비스 타입:', serviceType);
@@ -279,18 +291,22 @@ import {
                 const dateItem = document.createElement('div');
                 dateItem.className = 'date-item';
                 
+                // 조회수는 관리자만 표시
+                const viewCountBadge = (isUserAdmin && sermon.viewCount) ? 
+                    `<span class="view-count">조회: ${escapeHtml(sermon.viewCount)}</span>` : '';
+                
                 let itemHTML = `
-                    <div class="date-item-date">${sermon.date}</div>
-                    <div class="date-item-title">${sermon.title}</div>
+                    <div class="date-item-date">${escapeHtml(sermon.date)}</div>
+                    <div class="date-item-title">${escapeHtml(sermon.title)} ${viewCountBadge}</div>
                 `;
 
                 // Add edit and delete buttons for admin
                 if (isUserAdmin) {
                     itemHTML += `
-                        <button class="edit-sermon-btn" data-sermon-id="${sermon.id}" data-index="${index}">
+                        <button class="edit-sermon-btn" data-sermon-id="${escapeHtml(sermon.id)}" data-index="${escapeHtml(index)}">
                             수정
                         </button>
-                        <button class="delete-sermon-btn" data-sermon-id="${sermon.id}" data-index="${index}">
+                        <button class="delete-sermon-btn" data-sermon-id="${escapeHtml(sermon.id)}" data-index="${escapeHtml(index)}">
                             삭제
                         </button>
                     `;
@@ -436,18 +452,18 @@ import {
                 dateItem.className = 'date-item';
                 
                 let itemHTML = `
-                    <div class="date-item-date">${sermon.date}</div>
-                    <div class="date-item-service">${sermon.serviceName}</div>
-                    <div class="date-item-title">${sermon.title}</div>
+                    <div class="date-item-date">${escapeHtml(sermon.date)}</div>
+                    <div class="date-item-service">${escapeHtml(sermon.serviceName)}</div>
+                    <div class="date-item-title">${escapeHtml(sermon.title)}</div>
                 `;
 
                 // Add edit and delete buttons for admin
                 if (isUserAdmin) {
                     itemHTML += `
-                        <button class="edit-sermon-btn" data-sermon-id="${sermon.id}" data-index="${index}">
+                        <button class="edit-sermon-btn" data-sermon-id="${escapeHtml(sermon.id)}" data-index="${escapeHtml(index)}">
                             수정
                         </button>
-                        <button class="delete-sermon-btn" data-sermon-id="${sermon.id}" data-index="${index}">
+                        <button class="delete-sermon-btn" data-sermon-id="${escapeHtml(sermon.id)}" data-index="${escapeHtml(index)}">
                             삭제
                         </button>
                     `;
@@ -600,6 +616,48 @@ import {
     }
 
     // ========================================
+    // View Count Functions
+    // ========================================
+    async function incrementViewCount(sermon) {
+        if (!sermon || !sermon.id) return;
+        
+        const viewKey = `sermon_view_${sermon.id}`;
+        const now = Date.now();
+        const lastViewed = localStorage.getItem(viewKey);
+        
+        // 24시간(86400000ms) 이내면 카운트 안함
+        if (lastViewed && (now - parseInt(lastViewed)) < 86400000) {
+            console.log('24시간 이내 재방문 - 조회수 증가 안함');
+            return;
+        }
+        
+        try {
+            const sermonRef = doc(db, 'sermons', sermon.id);
+            
+            // Firestore의 viewCount 증가 (없으면 1로 설정)
+            await updateDoc(sermonRef, {
+                viewCount: (sermon.viewCount || 0) + 1
+            });
+            
+            // LocalStorage에 현재 시간 저장
+            localStorage.setItem(viewKey, now.toString());
+            
+            // 로컬 데이터도 업데이트
+            sermon.viewCount = (sermon.viewCount || 0) + 1;
+            
+            console.log(`조회수 증가: ${sermon.title} - ${sermon.viewCount}`);
+            
+            // UI 업데이트 (관리자인 경우만)
+            if (isUserAdmin) {
+                const viewCountText = sermon.viewCount ? ` | 조회 ${sermon.viewCount}` : '';
+                contentMeta.textContent = `${sermon.date} | ${getServiceName(currentService)}${viewCountText}`;
+            }
+        } catch (error) {
+            console.error('조회수 업데이트 실패:', error);
+        }
+    }
+
+    // ========================================
     // Display Content
     // ========================================
     function displayContent() {
@@ -609,13 +667,20 @@ import {
         welcomeState.style.display = 'none';
         contentPaper.style.display = 'block';
 
-        // Set title and meta
+        // Set title and meta (조회수는 관리자만 표시)
         contentTitle.textContent = currentContent.title;
-        contentMeta.textContent = `${currentContent.date} | ${getServiceName(currentService)}`;
+        let metaText = `${currentContent.date} | ${getServiceName(currentService)}`;
+        
+        // 관리자만 조회수 표시
+        if (isUserAdmin && currentContent.viewCount) {
+            metaText += ` | 조회 ${currentContent.viewCount}`;
+        }
+        
+        contentMeta.textContent = metaText;
 
         // Set body content
         const pages = currentContent.content;
-        contentBody.innerHTML = pages[currentPage];
+        contentBody.innerHTML = sanitizeSermonHtml(pages[currentPage]);
 
         // Update pagination
         if (pages.length > 1) {
@@ -626,6 +691,9 @@ import {
         } else {
             pagination.style.display = 'none';
         }
+
+        // 조회수 증가 (비동기로 실행)
+        incrementViewCount(currentContent);
 
         // Scroll to top
         contentPaper.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -728,7 +796,7 @@ import {
         
         // Set content if provided
         if (content) {
-            quill.root.innerHTML = content;
+            quill.root.innerHTML = sanitizeSermonHtml(content);
         }
         
         // Store quill instance on the page editor div
@@ -762,7 +830,7 @@ import {
         const newContent = Array.from(pageEditors).map(editor => {
             const quill = editor.quillInstance;
             if (quill) {
-                return quill.root.innerHTML;
+                return sanitizeSermonHtml(quill.root.innerHTML);
             }
             return '';
         });

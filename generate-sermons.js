@@ -3,6 +3,7 @@
 const fs = require('fs');
 const https = require('https');
 const path = require('path');
+const { sanitizeSermonHtml } = require('./js/sanitize-html.js');
 
 const PROJECT_ID = process.env.FIREBASE_PROJECT_ID || 'yeshua-love';
 const API_KEY = process.env.FIREBASE_WEB_API_KEY || 'AIzaSyAO5bbK1A7y0qJdBgdscUZZ4jn84Dh6W_4';
@@ -418,7 +419,7 @@ function generateSermonHTML(sermon, allSermons) {
         ${sermon.category ? `<div class="category">${escapeHtml(sermon.category)}</div>` : ''}
     </section>
     <article class="sermon-content">
-        ${sermon.content.join('\n<hr class="page-break">\n')}
+        ${sermon.content.map(sanitizeSermonHtml).join('\n<hr class="page-break">\n')}
     </article>
     <nav class="sermon-nav" aria-label="설교 이동">
         ${olderSermon ? `<a class="nav-link" href="${getSermonFilename(olderSermon)}">이전 말씀<br>${escapeHtml(olderSermon.date)} ${escapeHtml(olderSermon.title)}</a>` : '<span></span>'}
