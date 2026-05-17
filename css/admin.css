@@ -216,11 +216,125 @@ body {
 /* ========================================
    Buttons
    ======================================== */
+.draft-panel {
+    margin: 22px 0 8px;
+    padding: 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background: #f9fafb;
+}
+
+.draft-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.draft-panel-header strong {
+    display: block;
+    color: #111827;
+    font-size: 1rem;
+}
+
+.draft-panel-header span {
+    display: block;
+    margin-top: 3px;
+    color: #6b7280;
+    font-size: 0.85rem;
+}
+
+.draft-add-slot-btn {
+    flex: 0 0 auto;
+    width: 42px;
+    height: 42px;
+    border: none;
+    border-radius: 8px;
+    background: #2c5aa0;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.draft-add-slot-btn:hover {
+    background: #1e4a7a;
+    transform: translateY(-1px);
+}
+
+.draft-add-slot-btn:disabled {
+    background: #9ca3af;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.draft-slot-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.draft-slot-btn {
+    flex: 1 1 190px;
+    min-height: 58px;
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background: white;
+    color: #374151;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.draft-slot-btn:hover {
+    border-color: #2c5aa0;
+}
+
+.draft-slot-btn[aria-selected="true"] {
+    border-color: #2c5aa0;
+    background: #eff6ff;
+    box-shadow: 0 0 0 2px rgba(44, 90, 160, 0.12);
+}
+
+.draft-slot-name {
+    display: block;
+    overflow: hidden;
+    color: #111827;
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.draft-slot-meta {
+    display: block;
+    overflow: hidden;
+    margin-top: 4px;
+    color: #6b7280;
+    font-size: 0.8rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.draft-empty {
+    margin: 8px 0 0;
+    color: #6b7280;
+    font-size: 0.9rem;
+}
+
+.draft-empty[hidden] {
+    display: none;
+}
+
 .draft-controls {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    margin: 22px 0 8px;
+    margin: 12px 0 0;
 }
 
 .draft-btn {
@@ -361,6 +475,29 @@ body {
         flex-direction: column;
         gap: 15px;
         text-align: center;
+    }
+
+    .draft-panel {
+        padding: 12px;
+    }
+
+    .draft-panel-header {
+        align-items: flex-start;
+    }
+
+    .draft-add-slot-btn {
+        width: 40px;
+        height: 40px;
+    }
+
+    .draft-slot-list {
+        flex-direction: column;
+    }
+
+    .draft-slot-btn {
+        width: 100%;
+        flex-basis: auto;
+        min-height: 54px;
     }
 
     .draft-controls {

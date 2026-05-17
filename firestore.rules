@@ -26,6 +26,10 @@ service cloud.firestore {
 
     match /sermonDrafts/{userId} {
       allow read, create, update, delete: if isAdmin() && request.auth.uid == userId;
+
+      match /slots/{slotId} {
+        allow read, create, update, delete: if isAdmin() && request.auth.uid == userId;
+      }
     }
   }
 }
